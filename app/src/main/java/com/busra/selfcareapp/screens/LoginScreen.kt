@@ -31,14 +31,14 @@ import com.busra.selfcareapp.navigate.SelfCareAppRouter
 import com.busra.selfcareapp.navigate.SystemBackButtonHandler
 
 @Composable
-fun LoginScreen(loginViewModel: LoginViewModel = viewModel()){
+fun LoginScreen(loginViewModel: LoginViewModel = viewModel()) {
     Surface(
         modifier = Modifier
             .fillMaxSize()
             .background(Color.White)
             .padding(28.dp)
     ) {
-        Column (
+        Column(
             modifier = Modifier.fillMaxSize()
         ) {
             NormalTextComponent(value = stringResource(id = R.string.login))
@@ -62,11 +62,14 @@ fun LoginScreen(loginViewModel: LoginViewModel = viewModel()){
             UnderLineTextComponent(stringResource(id = R.string.forgot_password))
             Spacer(modifier = Modifier.height(20.dp))
 
-            ButtonComponent(value = stringResource(id = R.string.login))
+            ButtonComponent(
+                value = stringResource(id = R.string.login),
+                onButtonClicked = {}
+            )
             Spacer(modifier = Modifier.height(20.dp))
             DividerTextComponent()
 
-            ClickableLoginTextComponent(tryingToLogin = false, onTextSelected =  {
+            ClickableLoginTextComponent(tryingToLogin = false, onTextSelected = {
                 SelfCareAppRouter.navigateTo(Screen.SignUpScreen)
 
             })
@@ -82,6 +85,6 @@ fun LoginScreen(loginViewModel: LoginViewModel = viewModel()){
 
 @Preview
 @Composable
-fun DefaultPreviewOfLoginScreen(){
+fun DefaultPreviewOfLoginScreen() {
     LoginScreen()
 }

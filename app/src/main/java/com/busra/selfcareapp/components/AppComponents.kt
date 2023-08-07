@@ -249,12 +249,14 @@ fun ClickableTextComponent(value: String, onTextSelected: (String) -> Unit) {
 }
 
 @Composable
-fun ButtonComponent(value: String) {
+fun ButtonComponent(value: String, onButtonClicked: () ->Unit) {
     Button(
-        onClick = {/*TODO*/ },
         modifier = Modifier
             .fillMaxWidth()
             .heightIn(48.dp),
+        onClick ={
+                 onButtonClicked.invoke()
+        },
         contentPadding = PaddingValues(),
         colors = ButtonDefaults.buttonColors(Color.Transparent),
         shape = RoundedCornerShape(50.dp)
