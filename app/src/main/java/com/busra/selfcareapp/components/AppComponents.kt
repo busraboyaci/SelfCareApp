@@ -99,7 +99,8 @@ fun HeadingTextComponent(value: String) {
 
 @Composable
 fun MyTextComponent(labelValue: String, painterResource: Painter,
-                    onTextSelected: (String) -> Unit) {
+                    onTextSelected: (String) -> Unit,
+                    errorStatus: Boolean) {
 
     val textValue = remember {
         mutableStateOf("")
@@ -125,14 +126,16 @@ fun MyTextComponent(labelValue: String, painterResource: Painter,
         },
         leadingIcon = {
             Icon(painter = painterResource, contentDescription = "")
-        }
+        },
+        isError = !errorStatus
 
     )
 }
 
 @Composable
 fun PasswordTextFieldComponent(labelValue: String, painterResource: Painter,
-                               onTextSelected: (String) -> Unit) {
+                               onTextSelected: (String) -> Unit,
+                               errorStatus: Boolean) {
 
     val localFocusManager = LocalFocusManager.current
 
@@ -186,10 +189,10 @@ fun PasswordTextFieldComponent(labelValue: String, painterResource: Painter,
             }
 
         },
-//
-        visualTransformation = if (passwordVisible.value) VisualTransformation.None else PasswordVisualTransformation()
+        visualTransformation = if (passwordVisible.value) VisualTransformation.None else PasswordVisualTransformation(),
+        isError = !errorStatus
 
-    )
+        )
 }
 
 @Composable

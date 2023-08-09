@@ -47,28 +47,32 @@ fun SignUpScreen(loginViewModel: LoginViewModel = viewModel()) {
                 painterResource(id = R.drawable.person),
                 onTextSelected = {
                     loginViewModel.onEvent(UIEvent.FirstNameChanged(it))
-                }
+                },
+                errorStatus = loginViewModel.registrationUIState.value.firstNameError
             )
             MyTextComponent(
                 labelValue = stringResource(id = R.string.lastname),
                 painterResource(id = R.drawable.person),
                 onTextSelected = {
                     loginViewModel.onEvent(UIEvent.LastNameChanged(it))
-                }
+                 },
+                errorStatus = loginViewModel.registrationUIState.value.lastNameError
             )
             MyTextComponent(
                 labelValue = stringResource(id = R.string.email),
                 painterResource(id = R.drawable.email),
                 onTextSelected = {
                     loginViewModel.onEvent(UIEvent.EmailChanged(it))
-                }
+                },
+                errorStatus = loginViewModel.registrationUIState.value.emailError
             )
             PasswordTextFieldComponent(
                 labelValue = stringResource(id = R.string.password),
                 painterResource(id = R.drawable.password),
                 onTextSelected = {
                     loginViewModel.onEvent(UIEvent.PasswordChanged(it))
-                }
+                },
+                errorStatus = loginViewModel.registrationUIState.value.passwordError
             )
 
 
