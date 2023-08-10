@@ -115,7 +115,7 @@ fun SignUpScreen(loginViewModel: LoginViewModel = viewModel()) {
         if (loginViewModel.signUpInProgress.value){
             CircularProgressIndicator()
         }
-        
+
     }
 
 
