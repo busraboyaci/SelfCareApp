@@ -55,7 +55,7 @@ fun SignUpScreen(loginViewModel: LoginViewModel = viewModel()) {
                 painterResource(id = R.drawable.person),
                 onTextSelected = {
                     loginViewModel.onEvent(UIEvent.LastNameChanged(it))
-                 },
+                },
                 errorStatus = loginViewModel.registrationUIState.value.lastNameError
             )
             MyTextComponent(
@@ -79,20 +79,26 @@ fun SignUpScreen(loginViewModel: LoginViewModel = viewModel()) {
             CheckboxComponent(value = stringResource(id = R.string.terms_and_conditions),
                 onTextSelected = {
                     SelfCareAppRouter.navigateTo(Screen.TermsAndConditionScreen)
-                })
+                },
+                onCheckedChange = {
+                    loginViewModel.onEvent(UIEvent.PrivacyPolicyCheckBoxClicked(it))
+                }
+            )
             Spacer(modifier = Modifier.height(80.dp))
 
-            ButtonComponent(value = stringResource(id = R.string.register),
+            ButtonComponent(
+                value = stringResource(id = R.string.register),
                 onButtonClicked = {
                     loginViewModel.onEvent(UIEvent.RegisterButtonClicked)
-                }
+                },
+                isEnabled = loginViewModel.allValidationsPassed.value
             )
 
             Spacer(modifier = Modifier.height(20.dp))
 
             DividerTextComponent()
 
-            ClickableLoginTextComponent(tryingToLogin = true, onTextSelected =  {
+            ClickableLoginTextComponent(tryingToLogin = true, onTextSelected = {
                 SelfCareAppRouter.navigateTo(Screen.LoginScreen)
             })
 

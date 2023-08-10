@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Self Care App</string>
+    <string name="app_name">SelfCareApp</string>
     <string name="hello">Hey there,</string>
     <string name="create_account">Create an Account</string>
     <string name="welcome">Welcome back</string>

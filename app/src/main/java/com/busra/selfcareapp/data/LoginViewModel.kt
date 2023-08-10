@@ -5,27 +5,31 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import com.busra.selfcareapp.data.rules.ValidationResult
 import com.busra.selfcareapp.data.rules.Validator
+import com.google.firebase.FirebaseApp
+import com.google.firebase.auth.FirebaseAuth
 
-class LoginViewModel: ViewModel() {
+class LoginViewModel : ViewModel() {
     private val TAG = LoginViewModel::class.simpleName
     var registrationUIState = mutableStateOf(RegistrationUIState())
+    var allValidationsPassed = mutableStateOf(false)
 
-    fun onEvent(event: UIEvent){
-        validateDataWithRules()
+    fun onEvent(event: UIEvent) {
 
-        when(event){
+        when (event) {
             is UIEvent.FirstNameChanged -> {
                 registrationUIState.value = registrationUIState.value.copy(
                     firstName = event.firstName
                 )
                 printState()
             }
+
             is UIEvent.LastNameChanged -> {
                 registrationUIState.value = registrationUIState.value.copy(
                     lastName = event.lastName
                 )
                 printState()
             }
+
             is UIEvent.EmailChanged -> {
                 registrationUIState.value = registrationUIState.value.copy(
                     email = event.email
@@ -39,16 +43,27 @@ class LoginViewModel: ViewModel() {
                 )
                 printState()
             }
-            is UIEvent.RegisterButtonClicked ->{
+
+            is UIEvent.RegisterButtonClicked -> {
                 signUp()
             }
+
+            is UIEvent.PrivacyPolicyCheckBoxClicked -> {
+                registrationUIState.value = registrationUIState.value.copy(
+                    privacyPolicyAccepted = event.status
+                )
+            }
         }
+        validateDataWithRules()
     }
 
     private fun signUp() {
         Log.d(TAG, "Inside_signUp")
         printState()
-        validateDataWithRules()
+        createUserInFirebase(
+            email = registrationUIState.value.email,
+            password = registrationUIState.value.password
+        )
     }
 
     private fun validateDataWithRules() {
@@ -68,19 +83,47 @@ class LoginViewModel: ViewModel() {
             password = registrationUIState.value.password
         )
 
+        val privacyPolicyResult = Validator.validatePrivacyPolicyAcceptance(
+            statusValue = registrationUIState.value.privacyPolicyAccepted
+        )
+
         Log.d(TAG, "Inside_validateDataWithRules")
+        Log.d(TAG, "nameResult: $fNameResult")
+        Log.d(TAG, "lastNameResult: $lNameResult")
+        Log.d(TAG, "passworResult: $passwordResult")
+        Log.d(TAG, "emailResult: $emailResult")
+        Log.d(TAG, "privacyPolicyResult: $privacyPolicyResult")
+
 
         registrationUIState.value = registrationUIState.value.copy(
             firstNameError = fNameResult.status,
             lastNameError = lNameResult.status,
             emailError = emailResult.status,
-            passwordError = passwordResult.status
+            passwordError = passwordResult.status,
+            privacyPolicyError = privacyPolicyResult.status
         )
+
+        allValidationsPassed.value = fNameResult.status && lNameResult.status &&
+                emailResult.status && passwordResult.status && privacyPolicyResult.status
 
     }
 
-    private fun printState(){
+    private fun printState() {
         Log.d(TAG, "Inside_printState")
         Log.d(TAG, registrationUIState.value.toString())
+    }
+
+    private fun createUserInFirebase(email: String, password: String) {
+        FirebaseAuth
+            .getInstance()
+            .createUserWithEmailAndPassword(email, password)
+            .addOnCompleteListener{
+                Log.d(TAG, "Inside_OnCompleteListener")
+                Log.d(TAG, "isSuccesful = ${it.isSuccessful}")
+            }
+            .addOnFailureListener {
+                Log.d(TAG, "Inside_OnFailureListener")
+                Log.d(TAG, "exception = ${it.localizedMessage}")
+            }
     }
 }

@@ -2,30 +2,35 @@ package com.busra.selfcareapp.data.rules
 
 object Validator {
 
-    fun validateFirstName(fName: String): ValidationResult{
+    fun validateFirstName(fName: String): ValidationResult {
         return ValidationResult(
-            (!fName.isNullOrEmpty() && fName.length>=6)
+            (!fName.isNullOrEmpty() && fName.length >= 2)
         )
     }
 
-    fun validateLastName(lName: String): ValidationResult{
+    fun validateLastName(lName: String): ValidationResult {
         return ValidationResult(
-            (!lName.isNullOrEmpty() && lName.length>=6)
+            (!lName.isNullOrEmpty() && lName.length >= 2)
         )
     }
 
-    fun validateEmail(email: String): ValidationResult{
+    fun validateEmail(email: String): ValidationResult {
         return ValidationResult(
-            (!email.isNullOrEmpty() && email.length>=6)
+            (!email.isNullOrEmpty() && email.length >= 2)
         )
     }
 
-    fun validatePassword(password: String): ValidationResult{
+    fun validatePassword(password: String): ValidationResult {
         return ValidationResult(
-            (!password.isNullOrEmpty() && password.length>=6)
+            (!password.isNullOrEmpty() && password.length >= 2)
         )
     }
 
+    fun validatePrivacyPolicyAcceptance(statusValue: Boolean): ValidationResult {
+        return ValidationResult(
+            statusValue
+        )
+    }
 
 
 }

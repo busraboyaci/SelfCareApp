@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "350209485941",
+    "project_id": "selfcareapp-72b83",
+    "storage_bucket": "selfcareapp-72b83.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:350209485941:android:f15347898aa202b935dc3c",
+        "android_client_info": {
+          "package_name": "com.busra.selfcareapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "350209485941-7hevgs69vtcke5u7hr0a6c48vanvmkag.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDgdDpeeR2k4M4xRMW7mViX-Hujhun19Nc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "350209485941-7hevgs69vtcke5u7hr0a6c48vanvmkag.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
