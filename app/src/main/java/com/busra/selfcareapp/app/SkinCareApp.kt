@@ -9,6 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import com.busra.selfcareapp.navigate.Screen
 import com.busra.selfcareapp.navigate.SelfCareAppRouter
+import com.busra.selfcareapp.screens.HomeScreen
 import com.busra.selfcareapp.screens.LoginScreen
 import com.busra.selfcareapp.screens.SignUpScreen
 import com.busra.selfcareapp.screens.TermsAndConditionScreen
@@ -35,6 +36,9 @@ fun SelfCareApp() {
 
                 is Screen.LoginScreen -> {
                     LoginScreen()
+                }
+                is Screen.HomeScreen -> {
+                    HomeScreen()
                 }
             }
 

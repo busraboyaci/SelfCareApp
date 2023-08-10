@@ -5,6 +5,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import com.busra.selfcareapp.data.rules.ValidationResult
 import com.busra.selfcareapp.data.rules.Validator
+import com.busra.selfcareapp.navigate.Screen
+import com.busra.selfcareapp.navigate.SelfCareAppRouter
 import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.FirebaseAuth
 
@@ -12,6 +14,7 @@ class LoginViewModel : ViewModel() {
     private val TAG = LoginViewModel::class.simpleName
     var registrationUIState = mutableStateOf(RegistrationUIState())
     var allValidationsPassed = mutableStateOf(false)
+    var signUpInProgress = mutableStateOf(false)
 
     fun onEvent(event: UIEvent) {
 
@@ -114,12 +117,20 @@ class LoginViewModel : ViewModel() {
     }
 
     private fun createUserInFirebase(email: String, password: String) {
+        signUpInProgress.value = true
         FirebaseAuth
             .getInstance()
             .createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener{
                 Log.d(TAG, "Inside_OnCompleteListener")
                 Log.d(TAG, "isSuccesful = ${it.isSuccessful}")
+
+                signUpInProgress.value = false
+                if (it.isSuccessful){
+                    SelfCareAppRouter.navigateTo(Screen.HomeScreen)
+                }
+
+
             }
             .addOnFailureListener {
                 Log.d(TAG, "Inside_OnFailureListener")
