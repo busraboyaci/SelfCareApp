@@ -10,10 +10,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.busra.selfcareapp.components.ButtonComponent
 import com.busra.selfcareapp.components.HeadingTextComponent
+import com.busra.selfcareapp.data.SignUpViewModel
 
 @Composable
-fun HomeScreen() {
+fun HomeScreen(loginViewModel: SignUpViewModel = viewModel()) {
     Surface(
         modifier = Modifier
             .fillMaxSize()
@@ -22,12 +25,16 @@ fun HomeScreen() {
     ) {
         Column(modifier = Modifier.fillMaxSize()) {
             HeadingTextComponent(value = "Home")
+            ButtonComponent(value = "Logout", onButtonClicked = {
+                loginViewModel.logout()
+            },
+                isEnabled = true)
         }
     }
 }
 
 @Preview
 @Composable
-fun HomeScreenPreview(){
+fun HomeScreenPreview() {
     HomeScreen()
 }

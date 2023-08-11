@@ -27,14 +27,14 @@ import com.busra.selfcareapp.components.HeadingTextComponent
 import com.busra.selfcareapp.components.MyTextComponent
 import com.busra.selfcareapp.components.NormalTextComponent
 import com.busra.selfcareapp.components.PasswordTextFieldComponent
-import com.busra.selfcareapp.data.LoginViewModel
-import com.busra.selfcareapp.data.UIEvent
+import com.busra.selfcareapp.data.SignUpViewModel
+import com.busra.selfcareapp.data.SignUpUIEvent
 import com.busra.selfcareapp.navigate.Screen
 import com.busra.selfcareapp.navigate.SelfCareAppRouter
 
 
 @Composable
-fun SignUpScreen(loginViewModel: LoginViewModel = viewModel()) {
+fun SignUpScreen(registerViewModel: SignUpViewModel = viewModel()) {
 
     Box(modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center){
@@ -52,33 +52,33 @@ fun SignUpScreen(loginViewModel: LoginViewModel = viewModel()) {
                     labelValue = stringResource(id = R.string.firstname),
                     painterResource(id = R.drawable.person),
                     onTextSelected = {
-                        loginViewModel.onEvent(UIEvent.FirstNameChanged(it))
+                        registerViewModel.onEvent(SignUpUIEvent.FirstNameChanged(it))
                     },
-                    errorStatus = loginViewModel.registrationUIState.value.firstNameError
+                    errorStatus = registerViewModel.registrationUIState.value.firstNameError
                 )
                 MyTextComponent(
                     labelValue = stringResource(id = R.string.lastname),
                     painterResource(id = R.drawable.person),
                     onTextSelected = {
-                        loginViewModel.onEvent(UIEvent.LastNameChanged(it))
+                        registerViewModel.onEvent(SignUpUIEvent.LastNameChanged(it))
                     },
-                    errorStatus = loginViewModel.registrationUIState.value.lastNameError
+                    errorStatus = registerViewModel.registrationUIState.value.lastNameError
                 )
                 MyTextComponent(
                     labelValue = stringResource(id = R.string.email),
                     painterResource(id = R.drawable.email),
                     onTextSelected = {
-                        loginViewModel.onEvent(UIEvent.EmailChanged(it))
+                        registerViewModel.onEvent(SignUpUIEvent.EmailChanged(it))
                     },
-                    errorStatus = loginViewModel.registrationUIState.value.emailError
+                    errorStatus = registerViewModel.registrationUIState.value.emailError
                 )
                 PasswordTextFieldComponent(
                     labelValue = stringResource(id = R.string.password),
                     painterResource(id = R.drawable.password),
                     onTextSelected = {
-                        loginViewModel.onEvent(UIEvent.PasswordChanged(it))
+                        registerViewModel.onEvent(SignUpUIEvent.PasswordChanged(it))
                     },
-                    errorStatus = loginViewModel.registrationUIState.value.passwordError
+                    errorStatus = registerViewModel.registrationUIState.value.passwordError
                 )
 
 
@@ -87,7 +87,7 @@ fun SignUpScreen(loginViewModel: LoginViewModel = viewModel()) {
                         SelfCareAppRouter.navigateTo(Screen.TermsAndConditionScreen)
                     },
                     onCheckedChange = {
-                        loginViewModel.onEvent(UIEvent.PrivacyPolicyCheckBoxClicked(it))
+                        registerViewModel.onEvent(SignUpUIEvent.PrivacyPolicyCheckBoxClicked(it))
                     }
                 )
                 Spacer(modifier = Modifier.height(80.dp))
@@ -95,9 +95,9 @@ fun SignUpScreen(loginViewModel: LoginViewModel = viewModel()) {
                 ButtonComponent(
                     value = stringResource(id = R.string.register),
                     onButtonClicked = {
-                        loginViewModel.onEvent(UIEvent.RegisterButtonClicked)
+                        registerViewModel.onEvent(SignUpUIEvent.RegisterButtonClicked)
                     },
-                    isEnabled = loginViewModel.allValidationsPassed.value
+                    isEnabled = registerViewModel.allValidationsPassed.value
                 )
 
                 Spacer(modifier = Modifier.height(20.dp))
@@ -112,7 +112,7 @@ fun SignUpScreen(loginViewModel: LoginViewModel = viewModel()) {
 
         }
 
-        if (loginViewModel.signUpInProgress.value){
+        if (registerViewModel.signUpInProgress.value){
             CircularProgressIndicator()
         }
 

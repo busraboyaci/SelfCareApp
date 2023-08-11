@@ -3,138 +3,75 @@ package com.busra.selfcareapp.data
 import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
-import com.busra.selfcareapp.data.rules.ValidationResult
+import com.busra.selfcareapp.app.SelfCareApp
 import com.busra.selfcareapp.data.rules.Validator
 import com.busra.selfcareapp.navigate.Screen
 import com.busra.selfcareapp.navigate.SelfCareAppRouter
-import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.FirebaseAuth
 
-class LoginViewModel : ViewModel() {
+class LoginViewModel: ViewModel() {
     private val TAG = LoginViewModel::class.simpleName
-    var registrationUIState = mutableStateOf(RegistrationUIState())
+    var loginUIState = mutableStateOf(LoginUIState())
     var allValidationsPassed = mutableStateOf(false)
-    var signUpInProgress = mutableStateOf(false)
+    var loginInProgress = mutableStateOf(false)
 
-    fun onEvent(event: UIEvent) {
+    fun onEvent(event: LoginUIEvent) {
 
         when (event) {
-            is UIEvent.FirstNameChanged -> {
-                registrationUIState.value = registrationUIState.value.copy(
-                    firstName = event.firstName
-                )
-                printState()
-            }
-
-            is UIEvent.LastNameChanged -> {
-                registrationUIState.value = registrationUIState.value.copy(
-                    lastName = event.lastName
-                )
-                printState()
-            }
-
-            is UIEvent.EmailChanged -> {
-                registrationUIState.value = registrationUIState.value.copy(
+            is LoginUIEvent.EmailChanged -> {
+                loginUIState.value = loginUIState.value.copy(
                     email = event.email
                 )
-                printState()
             }
 
-            is UIEvent.PasswordChanged -> {
-                registrationUIState.value = registrationUIState.value.copy(
+            is LoginUIEvent.PasswordChanged -> {
+                loginUIState.value = loginUIState.value.copy(
                     password = event.password
                 )
-                printState()
             }
 
-            is UIEvent.RegisterButtonClicked -> {
-                signUp()
-            }
-
-            is UIEvent.PrivacyPolicyCheckBoxClicked -> {
-                registrationUIState.value = registrationUIState.value.copy(
-                    privacyPolicyAccepted = event.status
-                )
+            is LoginUIEvent.LoginButtonClicked -> {
+                login()
             }
         }
-        validateDataWithRules()
+        validateLoginUIDataWithRules()
     }
 
-    private fun signUp() {
-        Log.d(TAG, "Inside_signUp")
-        printState()
-        createUserInFirebase(
-            email = registrationUIState.value.email,
-            password = registrationUIState.value.password
-        )
-    }
-
-    private fun validateDataWithRules() {
-        val fNameResult = Validator.validateFirstName(
-            fName = registrationUIState.value.firstName
-        )
-
-        val lNameResult = Validator.validateLastName(
-            lName = registrationUIState.value.lastName
-        )
-
-        val emailResult = Validator.validateEmail(
-            email = registrationUIState.value.email
-        )
-
-        val passwordResult = Validator.validatePassword(
-            password = registrationUIState.value.password
-        )
-
-        val privacyPolicyResult = Validator.validatePrivacyPolicyAcceptance(
-            statusValue = registrationUIState.value.privacyPolicyAccepted
-        )
-
-        Log.d(TAG, "Inside_validateDataWithRules")
-        Log.d(TAG, "nameResult: $fNameResult")
-        Log.d(TAG, "lastNameResult: $lNameResult")
-        Log.d(TAG, "passworResult: $passwordResult")
-        Log.d(TAG, "emailResult: $emailResult")
-        Log.d(TAG, "privacyPolicyResult: $privacyPolicyResult")
-
-
-        registrationUIState.value = registrationUIState.value.copy(
-            firstNameError = fNameResult.status,
-            lastNameError = lNameResult.status,
-            emailError = emailResult.status,
-            passwordError = passwordResult.status,
-            privacyPolicyError = privacyPolicyResult.status
-        )
-
-        allValidationsPassed.value = fNameResult.status && lNameResult.status &&
-                emailResult.status && passwordResult.status && privacyPolicyResult.status
-
-    }
-
-    private fun printState() {
-        Log.d(TAG, "Inside_printState")
-        Log.d(TAG, registrationUIState.value.toString())
-    }
-
-    private fun createUserInFirebase(email: String, password: String) {
-        signUpInProgress.value = true
+    private fun login() {
+        loginInProgress.value = true
+        val email = loginUIState.value.email
+        val password = loginUIState.value.password
         FirebaseAuth
             .getInstance()
-            .createUserWithEmailAndPassword(email, password)
+            .signInWithEmailAndPassword(email, password)
             .addOnCompleteListener{
-                Log.d(TAG, "Inside_OnCompleteListener")
-                Log.d(TAG, "isSuccesful = ${it.isSuccessful}")
-
-                signUpInProgress.value = false
+                loginInProgress.value = false
+                Log.d(TAG, "login_success_addOnCompleteListener")
+                Log.d(TAG, "${it.isSuccessful}")
                 if (it.isSuccessful){
                     SelfCareAppRouter.navigateTo(Screen.HomeScreen)
                 }
-
-
             }
-            .addOnFailureListener {
-                Log.d(TAG, "Inside_OnFailureListener")
-                Log.d(TAG, "exception = ${it.localizedMessage}")
+            .addOnFailureListener{
+                Log.d(TAG, "login_failure")
+                Log.d(TAG, "${it.localizedMessage}")
             }
+
+    }
+
+    private fun validateLoginUIDataWithRules(){
+        val emailResult = Validator.validateEmail(
+            email = loginUIState.value.email
+        )
+
+        val passwordResult = Validator.validatePassword(
+            password = loginUIState.value.password
+        )
+        loginUIState.value = loginUIState.value.copy(
+            emailError = emailResult.status,
+            passwordError = passwordResult.status
+        )
+
+        allValidationsPassed.value = emailResult.status && passwordResult.status
     }
 }
