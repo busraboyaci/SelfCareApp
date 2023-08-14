@@ -6,6 +6,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import com.busra.selfcareapp.SelfCareApp
 import com.busra.selfcareapp.data.datastore.UserSettingsManager
 import com.busra.selfcareapp.data.rules.Validator
 import com.busra.selfcareapp.navigate.Screen
@@ -142,19 +143,6 @@ class SignUpViewModel : ViewModel() {
             }
     }
 
-    fun logout(){
-        val firebaseAuth = FirebaseAuth.getInstance()
-        firebaseAuth.signOut()
 
-        val authStateListener =  AuthStateListener{
-            if (it.currentUser == null){
-                Log.d(TAG, "authStateListener")
-                SelfCareAppRouter.navigateTo(Screen.LoginScreen)
-            }else{
-                Log.d(TAG, "logout not complete")
-            }
-        }
-        firebaseAuth.addAuthStateListener(authStateListener)
-    }
 
 }

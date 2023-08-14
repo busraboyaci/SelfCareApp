@@ -1,6 +1,7 @@
 package com.busra.selfcareapp
 
 import android.os.Bundle
+import android.util.Log
 import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -24,14 +25,15 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             val checkboxValue by userSettingsManager.getCheckboxValueFlow.collectAsState(initial = false)
-
+            Log.d("MainActivity", "checkboxValue: $checkboxValue")
             if (checkboxValue) {
-                // Checkbox işaretli ise, direkt ana ekrana yönlendir
                 HomeScreen()
-            } else {
-                // Checkbox işaretli değilse, giriş ekranına yönlendir
-                SelfCareApp()
             }
+            // Checkbox işaretli ise, direkt ana ekrana yönlendir
+            // Checkbox işaretli değilse, giriş ekranına yönlendir
+//            TODO: login checkboxta problem var düzelt - checkbox kontrolünü kaldırdım.
+            SelfCareApp()
+
         }
     }
 }

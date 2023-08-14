@@ -13,6 +13,7 @@ import com.busra.selfcareapp.data.rules.Validator
 import com.busra.selfcareapp.navigate.Screen
 import com.busra.selfcareapp.navigate.SelfCareAppRouter
 import com.google.firebase.auth.FirebaseAuth
+import kotlinx.coroutines.launch
 
 class LoginViewModel(): ViewModel() {
     private val TAG = LoginViewModel::class.simpleName
@@ -61,12 +62,14 @@ class LoginViewModel(): ViewModel() {
                 Log.d(TAG, "login_success_addOnCompleteListener")
                 Log.d(TAG, "${it.isSuccessful}")
                 if (it.isSuccessful){
-                    SelfCareAppRouter.navigateTo(Screen.HomeScreen)
+//                    SelfCareAppRouter.navigateTo(Screen.HomeScreen)
+                    Log.d(TAG, "isSuccessful in")
                 }
             }
             .addOnFailureListener{
                 Log.d(TAG, "login_failure")
                 Log.d(TAG, "${it.localizedMessage}")
+                rememberMeIsChecked.value = false
             }
 
     }

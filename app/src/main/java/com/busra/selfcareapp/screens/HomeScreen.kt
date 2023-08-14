@@ -16,17 +16,17 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.busra.selfcareapp.components.HeadingTextComponent
-import com.busra.selfcareapp.components.NormalTextComponent
-import com.busra.selfcareapp.components.ProfileImage
+import com.busra.selfcareapp.components.ButtonComponent
+import com.busra.selfcareapp.components.LogoutButtonComponent
 import com.busra.selfcareapp.components.UserInformationTopBar
+import com.busra.selfcareapp.data.HomeViewModel
 import com.busra.selfcareapp.data.SignUpViewModel
 import com.busra.selfcareapp.data.datastore.UserSettingsManager
-import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.FirebaseAuth
+import kotlinx.coroutines.launch
 
 @Composable
-fun HomeScreen(loginViewModel: SignUpViewModel = viewModel()) {
+fun HomeScreen(homeViewModel: HomeViewModel = viewModel()) {
 //    context
     val context = LocalContext.current
     var scope = rememberCoroutineScope()
@@ -43,22 +43,36 @@ fun HomeScreen(loginViewModel: SignUpViewModel = viewModel()) {
             .fillMaxHeight()
             .padding(top = 10.dp)) {
             if (userName != null) {
-                UserInformationTopBar(userName)
+                UserInformationTopBar(userName = userName, onButtonClicked = {
+                    homeViewModel.logout()
+                    scope.launch {
+                        dataStore.setCheckboxValue(false)
+                    }
+                })
             }
-        }
-
-
-
+            else{
+                UserInformationTopBar("userName", onButtonClicked = {
+                    homeViewModel.logout()
+                    scope.launch {
+                        dataStore.setCheckboxValue(false)
+                    }
+                })
+            }
 
 //            ButtonComponent(
 //                value = "Logout", onButtonClicked = {
-//                    loginViewModel.logout()
+//                    homeViewModel.logout()
 //                    scope.launch {
 //                        dataStore.setCheckboxValue(false)
 //                    }
 //                },
 //                isEnabled = true
 //            )
+
+        }
+
+        
+
 
     }
 }
