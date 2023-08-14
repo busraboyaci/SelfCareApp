@@ -1,13 +1,18 @@
 package com.busra.selfcareapp.data
 
+import android.content.Context
 import android.util.Log
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import com.busra.selfcareapp.data.datastore.UserSettingsManager
 import com.busra.selfcareapp.data.rules.Validator
 import com.busra.selfcareapp.navigate.Screen
 import com.busra.selfcareapp.navigate.SelfCareAppRouter
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuth.AuthStateListener
+import kotlinx.coroutines.flow.Flow
 
 class SignUpViewModel : ViewModel() {
     private val TAG = SignUpViewModel::class.simpleName
@@ -55,7 +60,6 @@ class SignUpViewModel : ViewModel() {
                     privacyPolicyAccepted = event.status
                 )
             }
-            else -> {}
         }
         validateDataWithRules()
     }

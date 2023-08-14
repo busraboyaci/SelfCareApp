@@ -4,6 +4,8 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
+import androidx.datastore.dataStore
+import com.busra.selfcareapp.SelfCareApp
 
 sealed class Screen {
     object SignUpScreen : Screen()
@@ -13,10 +15,7 @@ sealed class Screen {
 }
 
 object SelfCareAppRouter{
-
     var currentScreen: MutableState<Screen> = mutableStateOf(Screen.SignUpScreen)
-
-
     fun navigateTo(destination: Screen){
         currentScreen.value = destination
     }

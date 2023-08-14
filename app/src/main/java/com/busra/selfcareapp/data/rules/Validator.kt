@@ -32,6 +32,12 @@ object Validator {
         )
     }
 
+    fun rememberMeChecked(statusValue: Boolean): ValidationResult {
+        return ValidationResult(
+            statusValue
+        )
+    }
+
 
 }
 

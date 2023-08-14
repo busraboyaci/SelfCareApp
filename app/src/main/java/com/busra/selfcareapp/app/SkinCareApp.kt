@@ -7,6 +7,7 @@ import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import com.busra.selfcareapp.data.LoginViewModel
 import com.busra.selfcareapp.navigate.Screen
 import com.busra.selfcareapp.navigate.SelfCareAppRouter
 import com.busra.selfcareapp.screens.HomeScreen
@@ -16,6 +17,7 @@ import com.busra.selfcareapp.screens.TermsAndConditionScreen
 
 @Composable
 fun SelfCareApp() {
+
 //    surface is a container
     Surface(
         modifier = Modifier.fillMaxSize(),
@@ -28,12 +30,10 @@ fun SelfCareApp() {
                     Log.d("SkincareApp", "SignUpScreen()")
                     SignUpScreen()
                 }
-
                 is Screen.TermsAndConditionScreen -> {
                     Log.d("TermsAndConditionScreen", "TermsAndConditionScreen()")
                     TermsAndConditionScreen()
                 }
-
                 is Screen.LoginScreen -> {
                     LoginScreen()
                 }

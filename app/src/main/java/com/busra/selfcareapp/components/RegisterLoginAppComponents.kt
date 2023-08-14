@@ -5,7 +5,9 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -213,11 +215,36 @@ fun CheckboxComponent(
         Checkbox(checked = checkedState.value,
             onCheckedChange = {
                 checkedState.value = !checkedState.value
-                print("iiittt: "+it)
                 onCheckedChange.invoke(it)
             },
         )
         ClickableTextComponent(value = value, onTextSelected)
+    }
+}
+
+@Composable
+fun RememberMeCheckboxComponent(
+    onCheckedChange: (Boolean) -> Unit,
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .heightIn(56.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        val checkedState = remember {
+            mutableStateOf(false)
+        }
+        Checkbox(checked = checkedState.value,
+            onCheckedChange = {
+                checkedState.value = !checkedState.value
+                onCheckedChange.invoke(it)
+            },
+        )
+        Text(text = stringResource(id = R.string.remember_me))
+        Spacer(modifier = Modifier.height(0.dp))
+        UnderLineTextComponent(stringResource(id = R.string.forgot_password))
+
     }
 }
 
@@ -256,7 +283,7 @@ fun ClickableTextComponent(value: String, onTextSelected: (String) -> Unit) {
 
 @Composable
 fun ButtonComponent(value: String, onButtonClicked: () ->Unit,
-                    isEnabled: Boolean = false) {
+                    isEnabled: Boolean = false, rememberMeChecked: Boolean = false) {
     Button(
         modifier = Modifier
             .fillMaxWidth()
@@ -357,7 +384,7 @@ fun UnderLineTextComponent(value: String) {
         text = value,
         modifier = Modifier
             .fillMaxWidth()
-            .heightIn(min = 40.dp),
+            .heightIn(min = 20.dp),
         style = TextStyle(
             fontSize = 16.sp,
             fontWeight = FontWeight.Normal,
