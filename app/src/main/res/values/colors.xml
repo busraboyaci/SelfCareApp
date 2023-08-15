@@ -9,7 +9,10 @@
     <color name="teal_200">#FF03DAC5</color>
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
+    <color name="smBlack">#171616</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="cream">#E9DCDC</color>
-    <color name="colorGray">#7B6F72</color>
+    <color name="colorGray">#C9C1C3</color>
+    <color name="darkGray">#4E4648</color>
+    <color name="cream">#F5F5F5</color>
+    <color name="profile_photo_bg">#E8E2E2</color>
 </resources>

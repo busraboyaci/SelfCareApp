@@ -9,6 +9,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import com.busra.selfcareapp.app.SelfCareApp
 import com.busra.selfcareapp.navigate.Screen
+import com.busra.selfcareapp.navigate.SelfCareAppRouter
 import com.busra.selfcareapp.screens.HomeScreen
 
 class MainActivity : ComponentActivity() {
@@ -25,15 +26,11 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             val checkboxValue by userSettingsManager.getCheckboxValueFlow.collectAsState(initial = false)
-            Log.d("MainActivity", "checkboxValue: $checkboxValue")
             if (checkboxValue) {
-                HomeScreen()
+                SelfCareAppRouter.currentScreen.value = Screen.HomeScreen
             }
-            // Checkbox işaretli ise, direkt ana ekrana yönlendir
-            // Checkbox işaretli değilse, giriş ekranına yönlendir
-//            TODO: login checkboxta problem var düzelt - checkbox kontrolünü kaldırdım.
+//            TODO: login checkbox test et - Test yaz !.
             SelfCareApp()
-
         }
     }
 }

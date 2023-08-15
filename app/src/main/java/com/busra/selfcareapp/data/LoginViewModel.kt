@@ -62,7 +62,7 @@ class LoginViewModel(): ViewModel() {
                 Log.d(TAG, "login_success_addOnCompleteListener")
                 Log.d(TAG, "${it.isSuccessful}")
                 if (it.isSuccessful){
-//                    SelfCareAppRouter.navigateTo(Screen.HomeScreen)
+                    SelfCareAppRouter.navigateTo(Screen.HomeScreen)
                     Log.d(TAG, "isSuccessful in")
                 }
             }
