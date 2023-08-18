@@ -10,7 +10,7 @@ import androidx.compose.runtime.getValue
 import com.busra.selfcareapp.app.SelfCareApp
 import com.busra.selfcareapp.navigate.Screen
 import com.busra.selfcareapp.navigate.SelfCareAppRouter
-import com.busra.selfcareapp.screens.HomeScreen
+import com.busra.selfcareapp.screens.MainScreen
 
 class MainActivity : ComponentActivity() {
     private val userSettingsManager by lazy {
@@ -31,6 +31,7 @@ class MainActivity : ComponentActivity() {
             }
 //            TODO: login checkbox test et - Test yaz !.
             SelfCareApp()
+//            MainScreen()
         }
     }
 }

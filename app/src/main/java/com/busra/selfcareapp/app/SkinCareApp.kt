@@ -7,21 +7,22 @@ import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.navigation.compose.rememberNavController
 import com.busra.selfcareapp.data.LoginViewModel
 import com.busra.selfcareapp.navigate.Screen
 import com.busra.selfcareapp.navigate.SelfCareAppRouter
 import com.busra.selfcareapp.screens.HomeScreen
 import com.busra.selfcareapp.screens.LoginScreen
+import com.busra.selfcareapp.screens.MainScreen
 import com.busra.selfcareapp.screens.SignUpScreen
 import com.busra.selfcareapp.screens.TermsAndConditionScreen
 
 @Composable
 fun SelfCareApp() {
-
 //    surface is a container
     Surface(
         modifier = Modifier.fillMaxSize(),
-        color = Color.White
+        color = Color.White,
     ) {
         Crossfade(targetState = SelfCareAppRouter.currentScreen) { currentState ->
             println("currentState.value SkinCareApp: " + currentState.value)
@@ -38,11 +39,11 @@ fun SelfCareApp() {
                     LoginScreen()
                 }
                 is Screen.HomeScreen -> {
-                    HomeScreen()
+                    MainScreen()
+//                    HomeScreen()
                 }
             }
 
         }
-
     }
 }

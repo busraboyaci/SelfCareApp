@@ -142,7 +142,7 @@ fun FloatingActionButtonComponent(){
     Column (
         modifier = Modifier
             .fillMaxSize()
-            .padding(20.dp),
+            .padding(20.dp, 0.dp, 20.dp, 70.dp),
         verticalArrangement = Arrangement.Bottom,
         horizontalAlignment = Alignment.End
     ){
@@ -151,7 +151,6 @@ fun FloatingActionButtonComponent(){
             contentColor = colorResource(id = R.color.white)
         ) {
             Icon(Icons.Filled.Add , "float action button")
-
         }
     }
 }

@@ -6,12 +6,12 @@ plugins {
 
 android {
     namespace = "com.busra.selfcareapp"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "com.busra.selfcareapp"
         minSdk = 24
-        targetSdk = 33
+        targetSdk = 34
         versionCode = 1
         versionName = "1.0"
 
@@ -71,4 +71,10 @@ dependencies {
 
     implementation("com.google.firebase:firebase-auth-ktx")
     implementation("androidx.datastore:datastore-preferences:1.0.0")
+
+    //    BottomNavigation
+    implementation ("androidx.compose.material:material:1.4.2")
+    implementation("androidx.navigation:navigation-compose:2.7.0")
+
+
 }
