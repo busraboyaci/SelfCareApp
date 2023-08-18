@@ -1,6 +1,7 @@
 package com.busra.selfcareapp.screens
 
 import android.annotation.SuppressLint
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -8,9 +9,13 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.BottomNavigation
+import androidx.compose.material.FloatingActionButton
+import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Surface
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
@@ -26,10 +31,12 @@ import androidx.navigation.compose.rememberNavController
 import com.busra.selfcareapp.R
 import com.busra.selfcareapp.bottombar.BottomBarScreen
 import com.busra.selfcareapp.bottombar.BottomNavGraph
-import com.busra.selfcareapp.components.FloatingActionButtonComponent
 import com.busra.selfcareapp.components.UserInformationTopBar
 import com.busra.selfcareapp.data.HomeViewModel
 import com.busra.selfcareapp.data.datastore.UserSettingsManager
+import com.busra.selfcareapp.navigate.ObserveScreenChanges
+import com.busra.selfcareapp.navigate.Screen
+import com.busra.selfcareapp.navigate.SelfCareAppRouter
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.launch
 
@@ -41,18 +48,35 @@ fun HomeScreen(homeViewModel: HomeViewModel = viewModel()) {
     var scope = rememberCoroutineScope()
     val dataStore = UserSettingsManager(context)
     val userName = FirebaseAuth.getInstance().currentUser?.email?.substringBefore("@")
+    val contextForToast = LocalContext.current.applicationContext
 
-    Surface(
+
+    Scaffold(
         modifier = Modifier
             .fillMaxSize()
-            .background(colorResource(id = R.color.cream))
+            .background(colorResource(id = R.color.cream)),
+        floatingActionButton = {
+            FloatingActionButton(
+                modifier = Modifier
+                    .padding(50.dp),
+                onClick = {
+                    SelfCareAppRouter.navigateTo(Screen.AddHabitScreen)
+                },
+                backgroundColor = colorResource(id = R.color.primary),
+                contentColor = colorResource(id = R.color.white)
+            ) {
+                Icon(Icons.Filled.Add, "float action button")
+            }
+        }
     ) {
 
-        Column(modifier = Modifier
-            .fillMaxWidth()
-            .fillMaxHeight()
-            .background(colorResource(id = R.color.cream))
-            .padding(top = 10.dp)) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .fillMaxHeight()
+                .background(colorResource(id = R.color.cream))
+                .padding(top = 10.dp)
+        ) {
             if (userName != null) {
                 UserInformationTopBar(userName = userName, onMenuButtonClick = {
                     homeViewModel.logout()
@@ -61,7 +85,7 @@ fun HomeScreen(homeViewModel: HomeViewModel = viewModel()) {
                     }
                 },
                     onNotificationButtonClick = {})
-            }else{
+            } else {
                 UserInformationTopBar(userName = "userName", onMenuButtonClick = {
                     homeViewModel.logout()
                     scope.launch {
@@ -70,17 +94,17 @@ fun HomeScreen(homeViewModel: HomeViewModel = viewModel()) {
                 },
                     onNotificationButtonClick = {})
             }
-            FloatingActionButtonComponent()
-        }
+//            ObserveScreenChanges()
 
-        
+
+        }
 
 
     }
 }
 
 @Composable
-fun BottomBar(navController: NavHostController){
+fun BottomBar(navController: NavHostController) {
     val screens = listOf(
         BottomBarScreen.Home,
         BottomBarScreen.Profile,
@@ -91,9 +115,13 @@ fun BottomBar(navController: NavHostController){
     BottomNavigation(
         backgroundColor = colorResource(id = R.color.primary),
 
-        ){
-        screens.forEach{ screen ->
-            AddItem(screen = screen, currentDestination = currentDestination, navController = navController)
+        ) {
+        screens.forEach { screen ->
+            AddItem(
+                screen = screen,
+                currentDestination = currentDestination,
+                navController = navController
+            )
         }
     }
 

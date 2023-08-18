@@ -27,7 +27,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             val checkboxValue by userSettingsManager.getCheckboxValueFlow.collectAsState(initial = false)
             if (checkboxValue) {
-                SelfCareAppRouter.currentScreen.value = Screen.HomeScreen
+//                SelfCareAppRouter.currentScreen.value = Screen.HomeScreen
             }
 //            TODO: login checkbox test et - Test yaz !.
             SelfCareApp()

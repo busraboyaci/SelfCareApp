@@ -1,6 +1,5 @@
 package com.busra.selfcareapp.components
 
-import android.graphics.drawable.Drawable
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -8,10 +7,8 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
@@ -19,20 +16,13 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
@@ -41,10 +31,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.busra.selfcareapp.R
-import com.busra.selfcareapp.data.SignUpViewModel
-import com.busra.selfcareapp.ui.Primary
-import com.busra.selfcareapp.ui.Secondary
-import kotlinx.coroutines.launch
 
 @Composable
 fun UserInformationTopBar(userName: String, onNotificationButtonClick: () -> Unit, onMenuButtonClick: () -> Unit) {
@@ -134,24 +120,6 @@ fun ImageButtonComponent(onButtonClicked: () -> Unit, drawable: Int) {
 //                .padding(8.dp) // Icon etrafında boşluk bırakmak için
             tint = colorResource(id = R.color.darkGray)
         )
-    }
-}
-
-@Composable
-fun FloatingActionButtonComponent(){
-    Column (
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(20.dp, 0.dp, 20.dp, 70.dp),
-        verticalArrangement = Arrangement.Bottom,
-        horizontalAlignment = Alignment.End
-    ){
-        FloatingActionButton(onClick = { },
-            backgroundColor = colorResource(id = R.color.primary),
-            contentColor = colorResource(id = R.color.white)
-        ) {
-            Icon(Icons.Filled.Add , "float action button")
-        }
     }
 }
 

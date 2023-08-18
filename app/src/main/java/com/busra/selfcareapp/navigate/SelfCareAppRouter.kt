@@ -12,6 +12,9 @@ sealed class Screen {
     object TermsAndConditionScreen : Screen()
     object LoginScreen: Screen()
     object HomeScreen: Screen()
+    object AddHabitScreen: Screen()
+    object SettingsScreen: Screen()
+    object ProfileScreen: Screen()
 }
 
 object SelfCareAppRouter{

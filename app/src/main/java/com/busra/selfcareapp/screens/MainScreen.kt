@@ -17,6 +17,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.busra.selfcareapp.bottombar.BottomBarScreen
 import com.busra.selfcareapp.bottombar.BottomNavGraph
+import com.busra.selfcareapp.navigate.ObserveScreenChanges
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter", "UnusedMaterialScaffoldPaddingParameter")
 @Composable
@@ -25,6 +26,7 @@ fun MainScreen(){
     Scaffold(
         bottomBar = { BottomBar(navController = navController)}
     ) {
+        ObserveScreenChanges()
         BottomNavGraph(navController)
     }
 }
