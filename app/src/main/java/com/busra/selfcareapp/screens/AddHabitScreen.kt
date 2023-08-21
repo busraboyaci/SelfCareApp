@@ -2,6 +2,7 @@ package com.busra.selfcareapp.screens
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -12,11 +13,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
 import com.busra.selfcareapp.R
-import com.busra.selfcareapp.components.SettingsScreenTopRow
+import com.busra.selfcareapp.components.AddHabitScreenTopRow
 import com.busra.selfcareapp.navigate.ObserveScreenChanges
 import com.busra.selfcareapp.navigate.Screen
 import com.busra.selfcareapp.navigate.SelfCareAppRouter
-import com.busra.selfcareapp.navigate.SystemBackButtonHandler
 
 @Composable
 fun AddHabitScreen() {
@@ -35,7 +35,7 @@ fun AddHabitScreen() {
                 .padding(top = 10.dp)
         ) {
 //        Row -> satır geri dönüş tuşu ve arama tuşu
-            SettingsScreenTopRow(onButtonClicked = {
+            AddHabitScreenTopRow(onButtonClicked = {
                 SelfCareAppRouter.navigateTo(Screen.HomeScreen)
             })
             ObserveScreenChanges()

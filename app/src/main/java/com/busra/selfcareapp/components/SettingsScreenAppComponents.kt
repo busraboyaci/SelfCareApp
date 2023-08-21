@@ -20,38 +20,4 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.busra.selfcareapp.R
 
-@Composable
-fun SettingsScreenTopRow(onButtonClicked: () -> Unit){
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .background(colorResource(id = R.color.cream))
-            .padding(8.dp)
-            .clip(shape = RoundedCornerShape(20.dp))
-            .background(color = colorResource(id = R.color.cream)),
-        verticalAlignment = Alignment.CenterVertically,
-    ){
-        BackImageButton(onButtonClicked = onButtonClicked, R.drawable.back)
-    }
-}
 
-@Composable
-fun BackImageButton(onButtonClicked: () -> Unit, drawable: Int) {
-    Box(
-        modifier = Modifier
-            .width(34.dp)
-            .heightIn(34.dp)
-            .clickable(onClick = onButtonClicked),
-        contentAlignment = Alignment.BottomStart
-    ) {
-        Icon(
-            painter = painterResource(id = drawable),
-            contentDescription = "logout",
-            modifier = Modifier
-                .size(34.dp), // İstediğiniz boyutu ayarlayabilirsiniz
-//                .border(1.dp, Color.Gray, shape = RoundedCornerShape(50.dp)) // Kenarlık ekledik
-//                .padding(8.dp) // Icon etrafında boşluk bırakmak için
-            tint = colorResource(id = R.color.darkGray)
-        )
-    }
-}

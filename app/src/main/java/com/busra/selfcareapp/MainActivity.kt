@@ -1,7 +1,6 @@
 package com.busra.selfcareapp
 
 import android.os.Bundle
-import android.util.Log
 import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -10,7 +9,7 @@ import androidx.compose.runtime.getValue
 import com.busra.selfcareapp.app.SelfCareApp
 import com.busra.selfcareapp.navigate.Screen
 import com.busra.selfcareapp.navigate.SelfCareAppRouter
-import com.busra.selfcareapp.screens.MainScreen
+
 
 class MainActivity : ComponentActivity() {
     private val userSettingsManager by lazy {
@@ -27,7 +26,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             val checkboxValue by userSettingsManager.getCheckboxValueFlow.collectAsState(initial = false)
             if (checkboxValue) {
-//                SelfCareAppRouter.currentScreen.value = Screen.HomeScreen
+                SelfCareAppRouter.currentScreen.value = Screen.HomeScreen
             }
 //            TODO: login checkbox test et - Test yaz !.
             SelfCareApp()

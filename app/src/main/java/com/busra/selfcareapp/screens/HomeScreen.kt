@@ -4,27 +4,33 @@ import android.annotation.SuppressLint
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.BottomNavigation
+import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Surface
+import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavDestination
+import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
@@ -48,7 +54,6 @@ fun HomeScreen(homeViewModel: HomeViewModel = viewModel()) {
     var scope = rememberCoroutineScope()
     val dataStore = UserSettingsManager(context)
     val userName = FirebaseAuth.getInstance().currentUser?.email?.substringBefore("@")
-    val contextForToast = LocalContext.current.applicationContext
 
 
     Scaffold(
@@ -58,7 +63,7 @@ fun HomeScreen(homeViewModel: HomeViewModel = viewModel()) {
         floatingActionButton = {
             FloatingActionButton(
                 modifier = Modifier
-                    .padding(50.dp),
+                    .padding(0.dp, 0.dp, 0.dp, 50.dp),
                 onClick = {
                     SelfCareAppRouter.navigateTo(Screen.AddHabitScreen)
                 },
@@ -124,8 +129,36 @@ fun BottomBar(navController: NavHostController) {
             )
         }
     }
+}
+
+
+@Composable
+fun RowScope.AddItem(
+    screen: BottomBarScreen,
+    currentDestination: NavDestination?,
+    navController: NavHostController
+){
+    BottomNavigationItem(
+        label = {
+            Text(
+                text = screen.title,
+                color = Color.White
+            )
+        },
+        icon = {
+            Icon(imageVector = screen.icon, contentDescription = "Navigation Icon", tint = Color.White)
+        },
+        selected = currentDestination?.hierarchy?.any{
+            it.route == screen.route
+        } == true,
+        onClick = {
+            navController.navigate(screen.route)
+        }
+    )
+
 
 }
+
 
 @Preview
 @Composable
