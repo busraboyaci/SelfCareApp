@@ -1,8 +1,11 @@
 package com.busra.selfcareapp.components
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -10,8 +13,11 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -19,9 +25,14 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.busra.selfcareapp.R
+import com.busra.selfcareapp.data.model.Habit
+import com.busra.selfcareapp.data.repository.HabitRepository
 
 @Composable
 fun AddHabitScreenTopRow(onButtonClicked: () -> Unit){
@@ -62,6 +73,21 @@ fun BackImageButton(onButtonClicked: () -> Unit, drawable: Int) {
 }
 
 @Composable
+fun TextHeader(text: String){
+    Row (modifier = Modifier
+        .fillMaxWidth(),
+        horizontalArrangement = Arrangement.Center){
+        Text(
+            text = text,
+            fontWeight = FontWeight.Bold,
+            fontStyle = FontStyle.Italic,
+            fontSize = 20.sp
+        )
+    }
+
+}
+
+@Composable
 fun SearchImageButton(){
     Box(
         modifier = Modifier
@@ -80,8 +106,34 @@ fun SearchImageButton(){
     }
 }
 
-@Preview
 @Composable
-fun PreviewAddHabitScreen(){
-    AddHabitScreenTopRow(onButtonClicked = {})
+fun CustomHabitLazyColum(habit: Habit, onButtonClicked: () -> Unit){
+    Row (
+        modifier = Modifier
+            .background(colorResource(id = R.color.primary))
+            .fillMaxWidth()
+            .padding(24.dp)
+            .clickable(onClick = onButtonClicked),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(12.dp)
+
+    ){
+        Text(
+            text = "${habit.habitIcon}",
+            color = Color.Black,
+            fontSize = 20.sp,
+            fontWeight = FontWeight.Bold
+        )
+
+        Text(
+            text = "${habit.habitDescription}",
+            color = Color.Black,
+            fontSize = 14.sp,
+            fontWeight = FontWeight.Normal
+        )
+    }
 }
+
+
+
+

@@ -7,9 +7,13 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.busra.selfcareapp.HabitEvent
+import com.busra.selfcareapp.HabitState
 import com.busra.selfcareapp.bottombar.BottomNavGraph
+import com.busra.selfcareapp.insertDefaultItems
 import com.busra.selfcareapp.navigate.ObserveScreenChanges
 import com.busra.selfcareapp.navigate.Screen
 import com.busra.selfcareapp.navigate.SelfCareAppRouter
@@ -22,10 +26,14 @@ import com.busra.selfcareapp.screens.ProfileScreen
 import com.busra.selfcareapp.screens.SettingsScreen
 import com.busra.selfcareapp.screens.SignUpScreen
 import com.busra.selfcareapp.screens.TermsAndConditionScreen
+import kotlinx.coroutines.launch
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
-fun SelfCareApp() {
+fun SelfCareApp(
+    state: HabitState,
+    onEvent: (HabitEvent) -> Unit
+) {
 //    surface is a container
     val navController = rememberNavController()
     val currentScreen = SelfCareAppRouter.currentScreen.value // Access the current screen value
@@ -66,7 +74,7 @@ fun SelfCareApp() {
 
                 is Screen.AddHabitScreen -> {
                     Log.d("AddHabitScreen", "AddHabitScreen()")
-                    AddHabitScreen()
+                    AddHabitScreen(state = state, onEvent = onEvent)
                 }
 
                 is Screen.SettingsScreen -> {
