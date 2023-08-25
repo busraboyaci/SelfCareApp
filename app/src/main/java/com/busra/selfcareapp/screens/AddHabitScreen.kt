@@ -44,6 +44,7 @@ import com.busra.selfcareapp.components.AddHabitScreenTopRow
 import com.busra.selfcareapp.components.TextHeader
 import com.busra.selfcareapp.navigate.Screen
 import com.busra.selfcareapp.navigate.SelfCareAppRouter
+import com.busra.selfcareapp.navigate.SystemBackButtonHandler
 import org.intellij.lang.annotations.JdkConstants.HorizontalAlignment
 
 
@@ -142,23 +143,13 @@ fun AddHabitScreen(
                 }
             }
 
-
-//            LazyColumn(
-//                contentPadding = PaddingValues(all = 12.dp),
-//                verticalArrangement = Arrangement.spacedBy(12.dp)
-//            ){
-//                itemsIndexed(items = getAllData){index, habit ->
-//                    Log.d("MainActivity", "index: ${index.toString()}")
-//                    CustomHabitLazyColum(habit = habit, onButtonClicked = {
-//
-//                    })
-//                }
-//            }
         }
-//        altında Tanımlı olan popüler tüm alışkanlıkların listesi alt alta
-//        liste içinde itemler image isim ve ekle tuşuyla birlikte tek bir rowda
-//        en altta sabit add my own butonu var popüler alışkanlıkların dışında alışkanlık eklemek için
 
+
+    }
+
+    SystemBackButtonHandler {
+        SelfCareAppRouter.navigateTo(Screen.HomeScreen)
     }
 
 }

@@ -24,7 +24,6 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.busra.selfcareapp.R
 import com.busra.selfcareapp.components.ButtonComponent
-import com.busra.selfcareapp.components.CheckboxComponent
 import com.busra.selfcareapp.components.ClickableLoginTextComponent
 import com.busra.selfcareapp.components.DividerTextComponent
 import com.busra.selfcareapp.components.HeadingTextComponent
@@ -32,11 +31,8 @@ import com.busra.selfcareapp.components.MyTextComponent
 import com.busra.selfcareapp.components.NormalTextComponent
 import com.busra.selfcareapp.components.PasswordTextFieldComponent
 import com.busra.selfcareapp.components.RememberMeCheckboxComponent
-import com.busra.selfcareapp.components.UnderLineTextComponent
 import com.busra.selfcareapp.data.LoginUIEvent
 import com.busra.selfcareapp.data.LoginViewModel
-import com.busra.selfcareapp.data.SignUpViewModel
-import com.busra.selfcareapp.data.SignUpUIEvent
 import com.busra.selfcareapp.data.datastore.UserSettingsManager
 import com.busra.selfcareapp.navigate.Screen
 import com.busra.selfcareapp.navigate.SelfCareAppRouter
