@@ -15,4 +15,9 @@
     <color name="darkGray">#4E4648</color>
     <color name="cream">#F5F5F5</color>
     <color name="profile_photo_bg">#E8E2E2</color>
+    <color name="soft_pink">#FF9B9B</color>
+    <color name="soft_yellow">#FFD6A5</color>
+    <color name="cream_yellow">#FFFEC4</color>
+    <color name="light_green">#CBFFA9</color>
+    <color name="light_pink">#FFECEC</color>
 </resources>

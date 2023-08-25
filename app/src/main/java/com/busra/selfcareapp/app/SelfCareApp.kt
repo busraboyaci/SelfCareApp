@@ -20,6 +20,7 @@ import com.busra.selfcareapp.navigate.SelfCareAppRouter
 import com.busra.selfcareapp.navigate.SelfCareAppRouter.currentScreen
 import com.busra.selfcareapp.screens.AddHabitScreen
 import com.busra.selfcareapp.screens.BottomBar
+import com.busra.selfcareapp.screens.EditHabitScreen
 import com.busra.selfcareapp.screens.HomeScreen
 import com.busra.selfcareapp.screens.LoginScreen
 import com.busra.selfcareapp.screens.ProfileScreen
@@ -85,6 +86,10 @@ fun SelfCareApp(
                 is Screen.ProfileScreen -> {
                     Log.d("ProfileScreen", "ProfileScreen()")
                     ProfileScreenWithBottomNav(navController)
+                }
+
+                is Screen.EditHabitScreen -> {
+                    EditHabitScreen()
                 }
             }
         }

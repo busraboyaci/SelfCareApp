@@ -15,6 +15,7 @@ sealed class Screen {
     object AddHabitScreen: Screen()
     object SettingsScreen: Screen()
     object ProfileScreen: Screen()
+    object EditHabitScreen: Screen()
 }
 
 object SelfCareAppRouter{

@@ -1,52 +1,51 @@
 package com.busra.selfcareapp.screens
 
-import android.util.Log
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
-import androidx.compose.material.Scaffold
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AddCircle
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.modifier.modifierLocalConsumer
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.text.font.FontStyle
-import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.busra.selfcareapp.HabitEvent
 import com.busra.selfcareapp.HabitState
-import com.busra.selfcareapp.HabitViewModel
 import com.busra.selfcareapp.R
 import com.busra.selfcareapp.components.AddHabitScreenTopRow
-import com.busra.selfcareapp.components.CustomHabitLazyColum
 import com.busra.selfcareapp.components.TextHeader
-import com.busra.selfcareapp.data.LoginViewModel
-import com.busra.selfcareapp.data.repository.HabitRepository
-import com.busra.selfcareapp.data.roomdb.SortType
-import com.busra.selfcareapp.navigate.ObserveScreenChanges
 import com.busra.selfcareapp.navigate.Screen
 import com.busra.selfcareapp.navigate.SelfCareAppRouter
+import org.intellij.lang.annotations.JdkConstants.HorizontalAlignment
+
 
 @Composable
 fun AddHabitScreen(
@@ -55,12 +54,12 @@ fun AddHabitScreen(
 ) {
 //    val habitRepository = HabitRepository()
 //    val getAllData = habitRepository.getAllData()
-    
-    Scaffold(
+
+    Surface(
         modifier = Modifier
             .fillMaxSize()
             .background(colorResource(id = R.color.cream))
-    ) { paddingValues ->
+    ) {
 //        column  ->
         Column(
             modifier = Modifier
@@ -77,35 +76,73 @@ fun AddHabitScreen(
             TextHeader("Select A Habit")
 
             LazyColumn(
-                contentPadding = paddingValues,
+                contentPadding = PaddingValues(16.dp),
                 modifier = Modifier.fillMaxSize(),
-                verticalArrangement = Arrangement.spacedBy(16.dp)
-            ) {
-                items(state.habits){
-                    habit ->
-                    Row (
+                verticalArrangement = Arrangement.spacedBy(16.dp),
+
+                ) {
+                items(state.habits) { habit ->
+                    Row(
                         modifier = Modifier
                             .fillMaxWidth()
-                    ){
-                        Column(modifier = Modifier.weight(1f)) {
-                            Text(text = "${habit.habitName}", fontSize = 20.sp)
-                            Text(text = "${habit.habitDescription}", fontSize = 12.sp)
+                            .wrapContentHeight()
+                            .padding(vertical = 10.dp)
+                            .clickable(onClick = {
+                                SelfCareAppRouter.navigateTo(Screen.EditHabitScreen)
+                            }),
+                        horizontalArrangement = Arrangement.Center,
+                    ) {
+                        Column(
+                            modifier = Modifier
+                                .weight(0.1f)
+                                .clip(shape = RoundedCornerShape(15.dp))
+                                .background(colorResource(id = R.color.light_pink))
+                        ) {
+                            Spacer(modifier = Modifier.height(5.dp))
+                            Row(
+                                horizontalArrangement = Arrangement.SpaceBetween, // Aligns items horizontally with space between
+                                verticalAlignment = Alignment.CenterVertically                                 ){
+                                Spacer(modifier = Modifier.width(5.dp))
+                                Image(
+                                    painter = painterResource(
+                                        id = LocalContext.current.resources.getIdentifier(
+                                            habit.iconResName,
+                                            "drawable",
+                                            LocalContext.current.packageName
+                                        )
+                                    ),
+                                    contentDescription = null, // İconların genellikle content description'ı olmaz
+                                    modifier = Modifier
+                                        .size(48.dp)
+                                        .padding(end = 5.dp)
+                                )
+                                Text(
+                                    text = "${habit.habitName}",
+                                    fontSize = 25.sp,
+                                    textAlign = TextAlign.Start,
+                                    modifier = Modifier
+                                        .weight(1f) // Yatayda tam genişlik
+                                        .padding(start = 16.dp), // Sol kenardan boşluk
+                                )
+                            }
+                            Spacer(modifier = Modifier.height(5.dp))
                         }
+
                         IconButton(onClick = {
-                            onEvent(HabitEvent.DeleteHabit(habit = habit))
+//                            onEvent(HabitEvent.DeleteHabit(habit = habit))
+                            SelfCareAppRouter.navigateTo(Screen.EditHabitScreen)
                         }) {
                             Icon(
-                                imageVector = Icons.Default.Delete,
-                                contentDescription = "Delete contact"
+                                imageVector = Icons.Default.AddCircle,
+                                contentDescription = "Add Habit"
                             )
                         }
-                        
+
                     }
                 }
             }
-            
-            
-            
+
+
 //            LazyColumn(
 //                contentPadding = PaddingValues(all = 12.dp),
 //                verticalArrangement = Arrangement.spacedBy(12.dp)

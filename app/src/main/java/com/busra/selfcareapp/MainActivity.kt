@@ -52,11 +52,18 @@ class MainActivity : ComponentActivity() {
 // Check if default items are already inserted
         val defaultItemsInserted = viewModel.areDefaultItemsInserted()
 
-        if (!defaultItemsInserted) {
-            // Insert default items
-            lifecycleScope.launch {
-                insertDefaultItems(db)
-                viewModel.setDefaultItemsInserted(true)
+        lifecycleScope.launch {
+            if (!defaultItemsInserted) {
+                val habitCount = db.dao.getHabitCount()
+                if (habitCount == 0) {
+                    // Insert default items
+                    lifecycleScope.launch {
+                        insertDefaultItems(db)
+                        viewModel.setDefaultItemsInserted(true)
+                    }
+                } else {
+                    viewModel.setDefaultItemsInserted(true)
+                }
             }
         }
 

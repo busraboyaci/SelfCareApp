@@ -39,13 +39,15 @@ class HabitViewModel(
             HabitEvent.SaveHabit -> {
                 val habitName = state.value.habitName
                 val habitDescription = state.value.habitDescription
+                val iconResName = state.value.iconResName
 
                 if (habitName.isBlank() || habitDescription.isBlank()){
                     return
                 }
                 val habit = HabitDbModel(
                     habitName = habitName,
-                    habitDescription = habitDescription
+                    habitDescription = habitDescription,
+                    iconResName = iconResName
                 )
                 viewModelScope.launch {
                     dao.upsertHabit(habit)

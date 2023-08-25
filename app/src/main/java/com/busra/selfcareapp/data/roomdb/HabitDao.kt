@@ -17,4 +17,7 @@ interface HabitDao {
     @Query("SELECT * FROM habitdbmodel ORDER BY habitName ASC")
     fun getContactOrderedByHabitName(): Flow<List<HabitDbModel>>
 
+    @Query("SELECT COUNT(*) FROM habitdbmodel")
+    suspend fun getHabitCount(): Int
+
 }
