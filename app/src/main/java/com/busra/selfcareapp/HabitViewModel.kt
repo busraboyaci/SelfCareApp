@@ -86,7 +86,11 @@ class HabitViewModel(
             }
             is HabitEvent.SelectHabit -> {
                 viewModelScope.launch {
-                    dao.getHabitById(event.habit.id)
+                    _state.update {
+                        it.copy(
+                            selectedItem = event.selectHabit
+                        )
+                    }
                 }
             }
         }

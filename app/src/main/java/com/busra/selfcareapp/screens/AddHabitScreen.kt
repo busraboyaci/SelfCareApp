@@ -134,7 +134,7 @@ fun AddHabitScreen(
                         IconButton(onClick = {
                             print("habit habitName: "+ habit.habitName)
                             onEvent(HabitEvent.SelectHabit(habit)) // Seçili öğeyi güncelleme olayını tetikle
-                            SelfCareAppRouter.navigateTo(Screen.EditHabitScreen)
+//                            SelfCareAppRouter.navigateTo(Screen.EditHabitScreen)
                         }) {
                             Icon(
                                 imageVector = Icons.Default.AddCircle,

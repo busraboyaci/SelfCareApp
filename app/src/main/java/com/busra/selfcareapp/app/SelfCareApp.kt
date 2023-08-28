@@ -56,6 +56,7 @@ fun SelfCareApp(
         ObserveScreenChanges()
         Crossfade(targetState = SelfCareAppRouter.currentScreen, label = "") { currentState ->
             when (currentState.value) {
+
                 is Screen.SignUpScreen -> {
                     Log.d("SkincareApp", "SignUpScreen()")
                     SignUpScreen()
@@ -77,6 +78,7 @@ fun SelfCareApp(
 
                 is Screen.AddHabitScreen -> {
                     Log.d("AddHabitScreen", "AddHabitScreen()")
+                    Log.d("state.selectedItem: ", state.selectedItem.toString())
                     AddHabitScreen(viewModel, onEvent = viewModel::onEvent)
                 }
 
@@ -95,8 +97,9 @@ fun SelfCareApp(
 //                }
                 is Screen.EditHabitScreen -> {
                     Log.d("EditHabitScreen", "EditHabitScreen()")
-                    var selectedItem = state.selectedItem // Seçili öğe
-                    Log.d("selectedItem", selectedItem.toString())
+                    Log.d("selectedItem", state.selectedItem.toString())
+                    val selectedItem = state.selectedItem // Seçili öğe
+
                     selectedItem?.let {
                         EditHabitScreen(selectedItem)
                     }
