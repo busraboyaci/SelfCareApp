@@ -84,6 +84,11 @@ class HabitViewModel(
                     dao.deleteHabit(event.habit)
                 }
             }
+            is HabitEvent.SelectHabit -> {
+                viewModelScope.launch {
+                    dao.getHabitById(event.habit.id)
+                }
+            }
         }
     }
 

@@ -6,12 +6,15 @@ import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.busra.selfcareapp.HabitEvent
 import com.busra.selfcareapp.HabitState
+import com.busra.selfcareapp.HabitViewModel
 import com.busra.selfcareapp.bottombar.BottomNavGraph
 import com.busra.selfcareapp.insertDefaultItems
 import com.busra.selfcareapp.navigate.ObserveScreenChanges
@@ -32,12 +35,12 @@ import kotlinx.coroutines.launch
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun SelfCareApp(
-    state: HabitState,
-    onEvent: (HabitEvent) -> Unit
+    viewModel: HabitViewModel
 ) {
 //    surface is a container
     val navController = rememberNavController()
     val currentScreen = SelfCareAppRouter.currentScreen.value // Access the current screen value
+    val state by viewModel.state.collectAsState() // ViewModel'den state'i al
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -52,7 +55,6 @@ fun SelfCareApp(
     ) {
         ObserveScreenChanges()
         Crossfade(targetState = SelfCareAppRouter.currentScreen, label = "") { currentState ->
-            println("currentState.value SkinCareApp: " + currentState.value)
             when (currentState.value) {
                 is Screen.SignUpScreen -> {
                     Log.d("SkincareApp", "SignUpScreen()")
@@ -75,7 +77,7 @@ fun SelfCareApp(
 
                 is Screen.AddHabitScreen -> {
                     Log.d("AddHabitScreen", "AddHabitScreen()")
-                    AddHabitScreen(state = state, onEvent = onEvent)
+                    AddHabitScreen(viewModel, onEvent = viewModel::onEvent)
                 }
 
                 is Screen.SettingsScreen -> {
@@ -88,8 +90,16 @@ fun SelfCareApp(
                     ProfileScreenWithBottomNav(navController)
                 }
 
+//                is Screen.EditHabitScreen -> {
+//                    EditHabitScreen()
+//                }
                 is Screen.EditHabitScreen -> {
-                    EditHabitScreen()
+                    Log.d("EditHabitScreen", "EditHabitScreen()")
+                    var selectedItem = state.selectedItem // Seçili öğe
+                    Log.d("selectedItem", selectedItem.toString())
+                    selectedItem?.let {
+                        EditHabitScreen(selectedItem)
+                    }
                 }
             }
         }

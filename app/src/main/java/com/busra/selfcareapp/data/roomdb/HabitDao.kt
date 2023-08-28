@@ -19,5 +19,7 @@ interface HabitDao {
 
     @Query("SELECT COUNT(*) FROM habitdbmodel")
     suspend fun getHabitCount(): Int
+    @Query("SELECT * FROM habitdbmodel WHERE id = :habitId")
+    suspend fun getHabitById(habitId: Int): HabitDbModel?
 
 }

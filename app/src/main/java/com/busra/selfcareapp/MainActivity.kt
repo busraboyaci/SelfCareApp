@@ -74,11 +74,9 @@ class MainActivity : ComponentActivity() {
             if (checkboxValue) {
                 SelfCareAppRouter.currentScreen.value = Screen.HomeScreen
             }
-            val state by viewModel.state.collectAsState()
-
 
 //            TODO: login checkbox test et - Test yaz !.
-            SelfCareApp(state = state, onEvent = viewModel::onEvent)
+            SelfCareApp(viewModel)
 //            MainScreen()
         }
     }

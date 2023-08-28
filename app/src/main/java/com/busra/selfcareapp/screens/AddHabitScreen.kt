@@ -39,6 +39,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.busra.selfcareapp.HabitEvent
 import com.busra.selfcareapp.HabitState
+import com.busra.selfcareapp.HabitViewModel
 import com.busra.selfcareapp.R
 import com.busra.selfcareapp.components.AddHabitScreenTopRow
 import com.busra.selfcareapp.components.TextHeader
@@ -50,12 +51,12 @@ import org.intellij.lang.annotations.JdkConstants.HorizontalAlignment
 
 @Composable
 fun AddHabitScreen(
-    state: HabitState,
+    viewModel: HabitViewModel,
     onEvent: (HabitEvent) -> Unit,
 ) {
 //    val habitRepository = HabitRepository()
 //    val getAllData = habitRepository.getAllData()
-
+    val state = viewModel.state
     Surface(
         modifier = Modifier
             .fillMaxSize()
@@ -82,13 +83,14 @@ fun AddHabitScreen(
                 verticalArrangement = Arrangement.spacedBy(16.dp),
 
                 ) {
-                items(state.habits) { habit ->
+                items(state.value.habits) { habit ->
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
                             .wrapContentHeight()
                             .padding(vertical = 10.dp)
                             .clickable(onClick = {
+                                onEvent(HabitEvent.SelectHabit(habit)) // Seçili öğeyi güncelleme olayını tetikle
                                 SelfCareAppRouter.navigateTo(Screen.EditHabitScreen)
                             }),
                         horizontalArrangement = Arrangement.Center,
@@ -130,7 +132,8 @@ fun AddHabitScreen(
                         }
 
                         IconButton(onClick = {
-//                            onEvent(HabitEvent.DeleteHabit(habit = habit))
+                            print("habit habitName: "+ habit.habitName)
+                            onEvent(HabitEvent.SelectHabit(habit)) // Seçili öğeyi güncelleme olayını tetikle
                             SelfCareAppRouter.navigateTo(Screen.EditHabitScreen)
                         }) {
                             Icon(

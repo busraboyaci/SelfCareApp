@@ -25,6 +25,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -48,6 +49,55 @@ fun AddHabitScreenTopRow(onButtonClicked: () -> Unit){
         BackImageButton(onButtonClicked = onButtonClicked, R.drawable.back)
         Spacer(modifier = Modifier.weight(1f))
         SearchImageButton()
+    }
+}
+
+@Composable
+fun ClickableLabel(
+    text: String,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    // Tıklanabilir etiket oluşturma
+    Text(
+        text = text,
+        fontSize = 16.sp,
+        color = Color.Black,
+        modifier = modifier
+            .clickable { onClick.invoke() } // Tıklama işlevselliği ekleme
+            .padding(8.dp), // Boşluk ekleme
+        style = TextStyle(
+            fontSize = 16.sp,
+            fontWeight = FontWeight.Bold,
+            fontStyle = FontStyle.Normal
+        )
+    )
+}
+@Composable
+fun EditHabitScreenTopRow(onButtonClicked: () -> Unit){
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(colorResource(id = R.color.cream))
+            .padding(8.dp)
+            .clip(shape = RoundedCornerShape(20.dp))
+            .background(color = colorResource(id = R.color.cream)),
+        verticalAlignment = Alignment.CenterVertically,
+    ){
+        BackImageButton(onButtonClicked = onButtonClicked, R.drawable.back)
+        Spacer(modifier = Modifier.weight(1f))
+        Text(
+            text = "Edit",
+            fontSize = 16.sp,
+            color = Color.Black,
+            style = TextStyle(
+                fontSize = 16.sp,
+                fontWeight = FontWeight.Bold,
+                fontStyle = FontStyle.Normal
+            )
+        )
+        Spacer(modifier = Modifier.weight(1f))
+        ClickableLabel("add", onButtonClicked)
     }
 }
 

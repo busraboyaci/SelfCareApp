@@ -9,6 +9,7 @@ sealed interface HabitEvent {
     data class SetHabitName(val habitName: String): HabitEvent
     data class SetHabitDescription(val habitDescription: String): HabitEvent
     data class DeleteHabit(val habit: HabitDbModel): HabitEvent
+    data class SelectHabit(val habit: HabitDbModel): HabitEvent
 //    data class SortHabits(val sortType: SortType): HabitEvent
 
 }
