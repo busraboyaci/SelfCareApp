@@ -1,5 +1,6 @@
 package com.busra.selfcareapp
 
+import com.busra.selfcareapp.data.HabitUIEvent
 import com.busra.selfcareapp.data.roomdb.HabitDbModel
 import com.busra.selfcareapp.data.roomdb.SortType
 
@@ -10,6 +11,8 @@ sealed interface HabitEvent {
     data class SetHabitDescription(val habitDescription: String): HabitEvent
     data class DeleteHabit(val habit: HabitDbModel): HabitEvent
     data class SelectHabit(val selectHabit: HabitDbModel): HabitEvent
+    data class UpdateHabit(val habit: HabitDbModel): HabitEvent
+
 //    data class SortHabits(val sortType: SortType): HabitEvent
 
 }

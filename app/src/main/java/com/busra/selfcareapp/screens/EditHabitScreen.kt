@@ -19,6 +19,7 @@ import com.busra.selfcareapp.R
 import com.busra.selfcareapp.components.EditHabitScreenTopRow
 import com.busra.selfcareapp.components.EditHabitTextFieldComposable
 import com.busra.selfcareapp.components.RoundedImageWithWhiteBackground
+import com.busra.selfcareapp.data.HabitUIEvent
 import com.busra.selfcareapp.data.roomdb.HabitDbModel
 import com.busra.selfcareapp.navigate.Screen
 import com.busra.selfcareapp.navigate.SelfCareAppRouter
@@ -55,11 +56,14 @@ fun EditHabitScreen(
 //            TODO: Textfield eklenecek
 
             EditHabitTextFieldComposable(
-                defaultText = selectedHabit.habitName,
+                selectedHabit = selectedHabit,
                 onTextSelected = {
-                    editHabitScreenViewModel.onEvent(HabitEvent.SetHabitName(it))
+                    editHabitScreenViewModel.habitUIEvent(HabitUIEvent.HabitNameChanged(it))
                 }
             )
+
+//            TODO: seçilen ve değiştirilen habiti db update
+//            editHabitScreenViewModel.onEvent(HabitEvent.UpdateHabit(selectedHabit))
 
 //            Image(
 //                painter = painterResource(

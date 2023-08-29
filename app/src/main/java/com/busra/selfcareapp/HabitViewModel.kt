@@ -1,7 +1,13 @@
 package com.busra.selfcareapp
 
+import android.util.Log
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.busra.selfcareapp.data.HabitUIEvent
+import com.busra.selfcareapp.data.HabitUIState
+import com.busra.selfcareapp.data.LoginUIState
+import com.busra.selfcareapp.data.SignUpViewModel
 import com.busra.selfcareapp.data.roomdb.HabitDao
 import com.busra.selfcareapp.data.roomdb.HabitDbModel
 import com.busra.selfcareapp.data.roomdb.SortType
@@ -15,9 +21,12 @@ import kotlinx.coroutines.launch
 
 class HabitViewModel(
     private val dao: HabitDao
-): ViewModel() {
+) : ViewModel() {
+    private val TAG = HabitViewModel::class.simpleName
+    var habitUIState = mutableStateOf(HabitUIState())
     private val _shortType = MutableStateFlow(SortType.HABIT_NAME)
     private val _habits = _shortType
+
         .flatMapLatest { shortType ->
             when (shortType) {
                 SortType.HABIT_NAME -> dao.getContactOrderedByHabitName()
@@ -26,22 +35,22 @@ class HabitViewModel(
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(), emptyList())
     private val _state = MutableStateFlow(HabitState())
 
-    val state = combine(_state, _shortType, _habits) { state, sortType, habits->
+    val state = combine(_state, _shortType, _habits) { state, sortType, habits ->
         state.copy(
             sortType = sortType,
             habits = habits
-            )
+        )
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), HabitState())
 
     //    some user interaction like = user press a button ext.
-    fun onEvent(event: HabitEvent){
-        when(event){
+    fun onEvent(event: HabitEvent) {
+        when (event) {
             HabitEvent.SaveHabit -> {
                 val habitName = state.value.habitName
                 val habitDescription = state.value.habitDescription
                 val iconResName = state.value.iconResName
 
-                if (habitName.isBlank() || habitDescription.isBlank()){
+                if (habitName.isBlank() || habitDescription.isBlank()) {
                     return
                 }
                 val habit = HabitDbModel(
@@ -60,6 +69,7 @@ class HabitViewModel(
                     )
                 }
             }
+
             is HabitEvent.SetHabitDescription -> {
                 viewModelScope.launch {
                     _state.update {
@@ -69,6 +79,7 @@ class HabitViewModel(
                     }
                 }
             }
+
             is HabitEvent.SetHabitName -> {
                 viewModelScope.launch {
                     _state.update {
@@ -84,6 +95,7 @@ class HabitViewModel(
                     dao.deleteHabit(event.habit)
                 }
             }
+
             is HabitEvent.SelectHabit -> {
                 viewModelScope.launch {
                     _state.update {
@@ -93,6 +105,25 @@ class HabitViewModel(
                     }
                 }
             }
+
+            is HabitEvent.UpdateHabit -> {
+                viewModelScope.launch {
+                    dao.upsertHabit(event.habit)
+                }
+            }
+        }
+    }
+
+    fun habitUIEvent(event: HabitUIEvent) {
+        when (event) {
+            is HabitUIEvent.HabitNameChanged -> {
+                habitUIState.value = habitUIState.value.copy(
+                    habitName = event.habitName
+                )
+                printState()
+            }
+
+            else -> {}
         }
     }
 
@@ -108,6 +139,12 @@ class HabitViewModel(
     fun setDefaultItemsInserted(inserted: Boolean) {
         defaultItemsInserted = inserted
     }
+
+    private fun printState() {
+        Log.d(TAG, "Inside_printState")
+        Log.d(TAG, habitUIState.value.toString())
+    }
+
 
 
 }
