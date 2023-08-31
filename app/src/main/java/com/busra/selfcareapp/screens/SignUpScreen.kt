@@ -27,8 +27,8 @@ import com.busra.selfcareapp.components.HeadingTextComponent
 import com.busra.selfcareapp.components.MyTextComponent
 import com.busra.selfcareapp.components.NormalTextComponent
 import com.busra.selfcareapp.components.PasswordTextFieldComponent
-import com.busra.selfcareapp.data.SignUpViewModel
-import com.busra.selfcareapp.data.SignUpUIEvent
+import com.busra.selfcareapp.data.viewModel.SignUpViewModel
+import com.busra.selfcareapp.data.uievent.SignUpUIEvent
 import com.busra.selfcareapp.navigate.Screen
 import com.busra.selfcareapp.navigate.SelfCareAppRouter
 

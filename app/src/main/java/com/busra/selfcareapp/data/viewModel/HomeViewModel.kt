@@ -1,4 +1,4 @@
-package com.busra.selfcareapp.data
+package com.busra.selfcareapp.data.viewModel
 
 import android.util.Log
 import androidx.lifecycle.ViewModel

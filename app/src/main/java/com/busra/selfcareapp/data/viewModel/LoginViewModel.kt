@@ -1,19 +1,14 @@
-package com.busra.selfcareapp.data
+package com.busra.selfcareapp.data.viewModel
 
-import android.content.Context
 import android.util.Log
 import androidx.compose.runtime.mutableStateOf
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.preferencesDataStore
 import androidx.lifecycle.ViewModel
-import com.busra.selfcareapp.app.SelfCareApp
-import com.busra.selfcareapp.data.datastore.UserSettingsManager
+import com.busra.selfcareapp.data.uievent.LoginUIEvent
+import com.busra.selfcareapp.data.uistate.LoginUIState
 import com.busra.selfcareapp.data.rules.Validator
 import com.busra.selfcareapp.navigate.Screen
 import com.busra.selfcareapp.navigate.SelfCareAppRouter
 import com.google.firebase.auth.FirebaseAuth
-import kotlinx.coroutines.launch
 
 class LoginViewModel(): ViewModel() {
     private val TAG = LoginViewModel::class.simpleName

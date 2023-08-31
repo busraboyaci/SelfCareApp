@@ -1,4 +1,4 @@
-package com.busra.selfcareapp.data
+package com.busra.selfcareapp.data.uistate
 
 data class HabitUIState(
     var habitName: String = "",

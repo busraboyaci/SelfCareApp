@@ -1,7 +1,6 @@
 package com.busra.selfcareapp.screens
 
 import android.annotation.SuppressLint
-import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.RowScope
@@ -13,9 +12,7 @@ import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
-import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -33,14 +30,11 @@ import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
-import androidx.navigation.compose.rememberNavController
 import com.busra.selfcareapp.R
 import com.busra.selfcareapp.bottombar.BottomBarScreen
-import com.busra.selfcareapp.bottombar.BottomNavGraph
 import com.busra.selfcareapp.components.UserInformationTopBar
-import com.busra.selfcareapp.data.HomeViewModel
+import com.busra.selfcareapp.data.viewModel.HomeViewModel
 import com.busra.selfcareapp.data.datastore.UserSettingsManager
-import com.busra.selfcareapp.navigate.ObserveScreenChanges
 import com.busra.selfcareapp.navigate.Screen
 import com.busra.selfcareapp.navigate.SelfCareAppRouter
 import com.google.firebase.auth.FirebaseAuth
@@ -49,7 +43,6 @@ import kotlinx.coroutines.launch
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun HomeScreen(homeViewModel: HomeViewModel = viewModel()) {
-//    context
     val context = LocalContext.current
     var scope = rememberCoroutineScope()
     val dataStore = UserSettingsManager(context)

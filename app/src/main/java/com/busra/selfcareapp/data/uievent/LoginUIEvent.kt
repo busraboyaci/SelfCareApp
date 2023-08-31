@@ -1,4 +1,4 @@
-package com.busra.selfcareapp.data
+package com.busra.selfcareapp.data.uievent
 
 sealed class LoginUIEvent {
     data class EmailChanged(val email: String): LoginUIEvent()

@@ -1,6 +1,5 @@
 package com.busra.selfcareapp.screens
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -10,7 +9,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Surface
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
@@ -31,8 +29,8 @@ import com.busra.selfcareapp.components.MyTextComponent
 import com.busra.selfcareapp.components.NormalTextComponent
 import com.busra.selfcareapp.components.PasswordTextFieldComponent
 import com.busra.selfcareapp.components.RememberMeCheckboxComponent
-import com.busra.selfcareapp.data.LoginUIEvent
-import com.busra.selfcareapp.data.LoginViewModel
+import com.busra.selfcareapp.data.uievent.LoginUIEvent
+import com.busra.selfcareapp.data.viewModel.LoginViewModel
 import com.busra.selfcareapp.data.datastore.UserSettingsManager
 import com.busra.selfcareapp.navigate.Screen
 import com.busra.selfcareapp.navigate.SelfCareAppRouter

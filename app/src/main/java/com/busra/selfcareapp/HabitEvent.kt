@@ -1,8 +1,6 @@
 package com.busra.selfcareapp
 
-import com.busra.selfcareapp.data.HabitUIEvent
 import com.busra.selfcareapp.data.roomdb.HabitDbModel
-import com.busra.selfcareapp.data.roomdb.SortType
 
 
 sealed interface HabitEvent {

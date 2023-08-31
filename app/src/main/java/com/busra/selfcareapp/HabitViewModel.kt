@@ -4,10 +4,8 @@ import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.busra.selfcareapp.data.HabitUIEvent
-import com.busra.selfcareapp.data.HabitUIState
-import com.busra.selfcareapp.data.LoginUIState
-import com.busra.selfcareapp.data.SignUpViewModel
+import com.busra.selfcareapp.data.uievent.HabitUIEvent
+import com.busra.selfcareapp.data.uistate.HabitUIState
 import com.busra.selfcareapp.data.roomdb.HabitDao
 import com.busra.selfcareapp.data.roomdb.HabitDbModel
 import com.busra.selfcareapp.data.roomdb.SortType
