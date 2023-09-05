@@ -24,6 +24,7 @@ import com.busra.selfcareapp.R
 import com.busra.selfcareapp.components.EditHabitScreenTopRow
 import com.busra.selfcareapp.components.EditHabitTextFieldComposable
 import com.busra.selfcareapp.components.RoundedImageWithWhiteBackground
+import com.busra.selfcareapp.components.cardColor
 import com.busra.selfcareapp.components.describeHabitEdittext
 import com.busra.selfcareapp.data.uievent.HabitUIEvent
 import com.busra.selfcareapp.data.roomdb.HabitDbModel
@@ -70,14 +71,14 @@ fun EditHabitScreen(
                 modifier = Modifier
                     .weight(1f)
                     .padding(5.dp)
+                    .height(100.dp)
                     .clip(shape = RoundedCornerShape(15.dp))
                     .background(colorResource(id = R.color.light_pink))
             )
 
-
+            cardColor()
 //            TODO: seçilen ve değiştirilen habiti db update add butonuna tıklandığında
 //            editHabitScreenViewModel.onEvent(HabitEvent.UpdateHabit(selectedHabit))
-
         }
     }
 

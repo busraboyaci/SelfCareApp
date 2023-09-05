@@ -2,6 +2,7 @@ package com.busra.selfcareapp.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -14,9 +15,11 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
 import androidx.compose.material.LocalTextStyle
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.material.TextFieldDefaults
@@ -38,6 +41,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.busra.selfcareapp.R
 import com.busra.selfcareapp.data.roomdb.HabitDbModel
+import com.google.android.material.color.ColorResourcesOverride
 
 @Composable
 fun AddHabitScreenTopRow(onButtonClicked: () -> Unit) {
@@ -222,8 +226,9 @@ fun EditHabitTextFieldComposable(
     )
 
 }
+
 @Composable
-fun describeHabitEdittext(modifier: Modifier){
+fun describeHabitEdittext(modifier: Modifier) {
     val numOfChar = 0
     Column(
 //        modifier = Modifier
@@ -265,7 +270,8 @@ fun describeHabitEdittext(modifier: Modifier){
         Spacer(modifier = Modifier.height(5.dp))
         Row(
             horizontalArrangement = Arrangement.SpaceBetween, // Aligns items horizontally with space between
-            verticalAlignment = Alignment.CenterVertically                                 ) {
+            verticalAlignment = Alignment.CenterVertically
+        ) {
             Spacer(modifier = Modifier.width(5.dp))
             val textValue = remember {
                 mutableStateOf("")
@@ -278,7 +284,7 @@ fun describeHabitEdittext(modifier: Modifier){
 //                    onTextSelected(it)
                 },
                 textStyle = LocalTextStyle.current.copy(
-                    textAlign = TextAlign.Center, fontSize = 40.sp, fontWeight = FontWeight.Bold,
+                    textAlign = TextAlign.Start, fontSize = 16.sp, fontWeight = FontWeight.Bold,
                 ),
                 colors = TextFieldDefaults.textFieldColors(
                     backgroundColor = colorResource(id = R.color.cream),
@@ -292,11 +298,59 @@ fun describeHabitEdittext(modifier: Modifier){
 }
 
 @Composable
-fun cardColor(){
+fun cardColor() {
+    Column (modifier = Modifier
+        .fillMaxWidth()
+    ){
+        Spacer(modifier = Modifier.height(5.dp))
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(colorResource(id = R.color.purple_soft))
+                .padding(8.dp)
+                .clip(shape = RoundedCornerShape(20.dp))
+                .background(color = colorResource(id = R.color.purple_soft)),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Text(
+                text = "Card Color",
+                fontSize = 16.sp,
+                color = Color.Black,
+                style = TextStyle(
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.Bold,
+                    fontStyle = FontStyle.Normal
+                )
+            )
+        }
+        Row (){
+            RoundedColorItem(R.color.cream_yellow)
+            RoundedColorItem(R.color.teal_200)
+            RoundedColorItem(R.color.light_pink)
+            RoundedColorItem(R.color.purple_500)
+            RoundedColorItem(R.color.soft_yellow)
+            RoundedColorItem(R.color.soft_pink)
+            RoundedColorItem(R.color.teal_700)
+        }
+
+
+    }
 
 }
+
 @Composable
-fun repeatScreen(){
+fun RoundedColorItem(color: Int) {
+    Box(
+        modifier = Modifier
+            .size(55.dp)
+            .padding(8.dp)
+            .border(3.dp, Color.White, shape = CircleShape) // Beyaz kenarlık eklemek için
+            .background(colorResource(color), shape = CircleShape),
+    )
+}
+
+@Composable
+fun repeatScreen() {
 
 }
 
