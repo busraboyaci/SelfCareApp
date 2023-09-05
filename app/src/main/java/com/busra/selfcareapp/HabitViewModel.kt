@@ -47,6 +47,7 @@ class HabitViewModel(
                 val habitName = state.value.habitName
                 val habitDescription = state.value.habitDescription
                 val iconResName = state.value.iconResName
+                val backgroundColor = state.value.backgroundColour
 
                 if (habitName.isBlank() || habitDescription.isBlank()) {
                     return
@@ -54,7 +55,8 @@ class HabitViewModel(
                 val habit = HabitDbModel(
                     habitName = habitName,
                     habitDescription = habitDescription,
-                    iconResName = iconResName
+                    iconResName = iconResName,
+                    backgroundColor = backgroundColor
                 )
                 viewModelScope.launch {
                     dao.upsertHabit(habit)

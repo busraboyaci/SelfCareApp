@@ -40,20 +40,22 @@ fun EditHabitScreen(
     Surface(
         modifier = Modifier
             .fillMaxSize()
-            .background(colorResource(id = R.color.purple_soft))
+            .background(colorResource(id = selectedHabit.backgroundColor))
     ) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
                 .fillMaxHeight()
-                .background(colorResource(id = R.color.purple_soft))
+                .background(colorResource(id = selectedHabit.backgroundColor))
                 .padding(top = 10.dp)
                 .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             EditHabitScreenTopRow(onButtonClicked = {
                 SelfCareAppRouter.navigateTo(Screen.AddHabitScreen)
-            })
+            },
+                selectedHabit.backgroundColor
+            )
             // Seçili habit'a ait bilgileri Text olarak göster
             RoundedImageWithWhiteBackground(
                 imageName = selectedHabit.iconResName
@@ -73,10 +75,11 @@ fun EditHabitScreen(
                     .padding(5.dp)
                     .height(100.dp)
                     .clip(shape = RoundedCornerShape(15.dp))
-                    .background(colorResource(id = R.color.light_pink))
+                    .background(colorResource(id = selectedHabit.backgroundColor)),
+                selectedHabit.backgroundColor
             )
 
-            cardColor()
+            cardColor(selectedHabit.backgroundColor)
 //            TODO: seçilen ve değiştirilen habiti db update add butonuna tıklandığında
 //            editHabitScreenViewModel.onEvent(HabitEvent.UpdateHabit(selectedHabit))
         }

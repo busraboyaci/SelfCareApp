@@ -41,6 +41,7 @@ fun SelfCareApp(
     val navController = rememberNavController()
     val currentScreen = SelfCareAppRouter.currentScreen.value // Access the current screen value
     val state by viewModel.state.collectAsState() // ViewModel'den state'i al
+    val selectedItem = state.selectedItem // Seçili öğe
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -98,7 +99,6 @@ fun SelfCareApp(
                 is Screen.EditHabitScreen -> {
                     Log.d("EditHabitScreen", "EditHabitScreen()")
                     Log.d("selectedItem", state.selectedItem.toString())
-                    val selectedItem = state.selectedItem // Seçili öğe
 
                     selectedItem?.let {
                         EditHabitScreen(selectedItem)

@@ -46,14 +46,13 @@ import com.busra.selfcareapp.components.TextHeader
 import com.busra.selfcareapp.navigate.Screen
 import com.busra.selfcareapp.navigate.SelfCareAppRouter
 import com.busra.selfcareapp.navigate.SystemBackButtonHandler
-import org.intellij.lang.annotations.JdkConstants.HorizontalAlignment
 
 
 @Composable
 fun AddHabitScreen(
     viewModel: HabitViewModel,
     onEvent: (HabitEvent) -> Unit,
-) {
+    ) {
 //    val habitRepository = HabitRepository()
 //    val getAllData = habitRepository.getAllData()
     val state = viewModel.state
@@ -78,7 +77,7 @@ fun AddHabitScreen(
             TextHeader("Select A Habit")
 
             LazyColumn(
-                contentPadding = PaddingValues(16.dp),
+                contentPadding = PaddingValues(8.dp),
                 modifier = Modifier.fillMaxSize(),
                 verticalArrangement = Arrangement.spacedBy(16.dp),
 
@@ -99,7 +98,7 @@ fun AddHabitScreen(
                             modifier = Modifier
                                 .weight(0.1f)
                                 .clip(shape = RoundedCornerShape(15.dp))
-                                .background(colorResource(id = R.color.light_pink))
+                                .background(colorResource(id = habit.backgroundColor))
                         ) {
                             Spacer(modifier = Modifier.height(5.dp))
                             Row(

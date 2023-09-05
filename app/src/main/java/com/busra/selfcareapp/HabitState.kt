@@ -8,6 +8,7 @@ data class HabitState(
     val habitName: String = "",
     val habitDescription: String = "",
     val iconResName: String = "",
+    val backgroundColour: Int = 0,
     val isAddingState: Boolean = false,
     val sortType: SortType = SortType.HABIT_NAME,
     val selectedItem: HabitDbModel? = null // Seçili öğe

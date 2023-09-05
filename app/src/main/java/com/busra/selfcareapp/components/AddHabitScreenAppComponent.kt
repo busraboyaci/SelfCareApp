@@ -83,14 +83,14 @@ fun ClickableLabel(
 }
 
 @Composable
-fun EditHabitScreenTopRow(onButtonClicked: () -> Unit) {
+fun EditHabitScreenTopRow(onButtonClicked: () -> Unit, selectedHabit: Int) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .background(colorResource(id = R.color.purple_soft))
+            .background(colorResource(id = selectedHabit))
             .padding(8.dp)
             .clip(shape = RoundedCornerShape(20.dp))
-            .background(color = colorResource(id = R.color.purple_soft)),
+            .background(color = colorResource(id = selectedHabit)),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         BackImageButton(onButtonClicked = onButtonClicked, R.drawable.back)
@@ -219,7 +219,7 @@ fun EditHabitTextFieldComposable(
             textAlign = TextAlign.Center, fontSize = 40.sp, fontWeight = FontWeight.Bold,
         ),
         colors = TextFieldDefaults.textFieldColors(
-            backgroundColor = colorResource(id = R.color.purple_soft),
+            backgroundColor = colorResource(id = selectedHabit.backgroundColor),
             unfocusedIndicatorColor = colorResource(id = R.color.black),
             focusedIndicatorColor = colorResource(id = R.color.black),
         ),
@@ -228,7 +228,7 @@ fun EditHabitTextFieldComposable(
 }
 
 @Composable
-fun describeHabitEdittext(modifier: Modifier) {
+fun describeHabitEdittext(modifier: Modifier, selectedHabit: Int) {
     val numOfChar = 0
     Column(
 //        modifier = Modifier
@@ -239,10 +239,10 @@ fun describeHabitEdittext(modifier: Modifier) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .background(colorResource(id = R.color.purple_soft))
+                .background(colorResource(id = selectedHabit))
                 .padding(8.dp)
                 .clip(shape = RoundedCornerShape(20.dp))
-                .background(color = colorResource(id = R.color.purple_soft)),
+                .background(color = colorResource(id = selectedHabit)),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Text(
@@ -298,7 +298,9 @@ fun describeHabitEdittext(modifier: Modifier) {
 }
 
 @Composable
-fun cardColor() {
+fun cardColor(
+    selectedHabit: Int
+) {
     Column (modifier = Modifier
         .fillMaxWidth()
     ){
@@ -306,10 +308,10 @@ fun cardColor() {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .background(colorResource(id = R.color.purple_soft))
+                .background(colorResource(id = selectedHabit))
                 .padding(8.dp)
                 .clip(shape = RoundedCornerShape(20.dp))
-                .background(color = colorResource(id = R.color.purple_soft)),
+                .background(color = colorResource(id = selectedHabit)),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Text(
