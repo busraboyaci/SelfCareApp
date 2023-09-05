@@ -1,6 +1,6 @@
 package com.busra.selfcareapp.data.uievent
 
-sealed class SignUpUIEvent{
+open class SignUpUIEvent{
     data class FirstNameChanged(val firstName: String): SignUpUIEvent()
     data class LastNameChanged(val lastName: String): SignUpUIEvent()
     data class EmailChanged(val email: String): SignUpUIEvent()

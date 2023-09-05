@@ -197,7 +197,6 @@ fun EditHabitTextFieldComposable(
     modifier: Modifier = Modifier,
     onTextSelected: (String) -> Unit,
     selectedHabit: HabitDbModel,
-
     ) {
     val textValue = remember {
         mutableStateOf(selectedHabit.habitName)
@@ -209,7 +208,7 @@ fun EditHabitTextFieldComposable(
             textValue.value = it
             onTextSelected(it)
         },
-        textStyle = LocalTextStyle.current.copy(textAlign = TextAlign.Center),
+        textStyle = LocalTextStyle.current.copy(textAlign = TextAlign.Center, fontSize = 20.sp),
         colors = TextFieldDefaults.textFieldColors(
             backgroundColor = colorResource(id = R.color.purple_soft),
             unfocusedIndicatorColor = colorResource(id = R.color.black),

@@ -7,7 +7,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.datastore.dataStore
 import com.busra.selfcareapp.SelfCareApp
 
-sealed class Screen {
+open class Screen {
     object SignUpScreen : Screen()
     object TermsAndConditionScreen : Screen()
     object LoginScreen: Screen()

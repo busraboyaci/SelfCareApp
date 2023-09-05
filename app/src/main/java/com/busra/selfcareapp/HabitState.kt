@@ -1,6 +1,5 @@
 package com.busra.selfcareapp
 
-import android.graphics.Bitmap
 import com.busra.selfcareapp.data.roomdb.HabitDbModel
 import com.busra.selfcareapp.data.roomdb.SortType
 
