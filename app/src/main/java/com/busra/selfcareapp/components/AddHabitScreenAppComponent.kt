@@ -5,9 +5,11 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -104,6 +106,7 @@ fun EditHabitScreenTopRow(onButtonClicked: () -> Unit) {
     }
 }
 
+
 @Composable
 fun BackImageButton(onButtonClicked: () -> Unit, drawable: Int) {
     Box(
@@ -197,7 +200,7 @@ fun EditHabitTextFieldComposable(
     modifier: Modifier = Modifier,
     onTextSelected: (String) -> Unit,
     selectedHabit: HabitDbModel,
-    ) {
+) {
     val textValue = remember {
         mutableStateOf(selectedHabit.habitName)
     }
@@ -208,13 +211,92 @@ fun EditHabitTextFieldComposable(
             textValue.value = it
             onTextSelected(it)
         },
-        textStyle = LocalTextStyle.current.copy(textAlign = TextAlign.Center, fontSize = 20.sp),
+        textStyle = LocalTextStyle.current.copy(
+            textAlign = TextAlign.Center, fontSize = 40.sp, fontWeight = FontWeight.Bold,
+        ),
         colors = TextFieldDefaults.textFieldColors(
             backgroundColor = colorResource(id = R.color.purple_soft),
             unfocusedIndicatorColor = colorResource(id = R.color.black),
             focusedIndicatorColor = colorResource(id = R.color.black),
         ),
     )
+
+}
+@Composable
+fun describeHabitEdittext(modifier: Modifier){
+    val numOfChar = 0
+    Column(
+//        modifier = Modifier
+//            .clip(shape = RoundedCornerShape(15.dp))
+//            .background(colorResource(id = R.color.light_pink))
+    ) {
+        Spacer(modifier = Modifier.height(5.dp))
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(colorResource(id = R.color.purple_soft))
+                .padding(8.dp)
+                .clip(shape = RoundedCornerShape(20.dp))
+                .background(color = colorResource(id = R.color.purple_soft)),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Text(
+                text = "Describe",
+                fontSize = 16.sp,
+                color = Color.Black,
+                style = TextStyle(
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.Bold,
+                    fontStyle = FontStyle.Normal
+                )
+            )
+            Spacer(modifier = Modifier.weight(1f))
+            Text(
+                text = "${numOfChar}/200",
+                fontSize = 16.sp,
+                color = colorResource(id = R.color.soft_grey),
+                style = TextStyle(
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.Bold,
+                    fontStyle = FontStyle.Normal
+                )
+            )
+        }
+        Spacer(modifier = Modifier.height(5.dp))
+        Row(
+            horizontalArrangement = Arrangement.SpaceBetween, // Aligns items horizontally with space between
+            verticalAlignment = Alignment.CenterVertically                                 ) {
+            Spacer(modifier = Modifier.width(5.dp))
+            val textValue = remember {
+                mutableStateOf("")
+            }
+            TextField(
+                modifier = modifier.background(Color.Transparent),
+                value = textValue.value,
+                onValueChange = {
+                    textValue.value = it
+//                    onTextSelected(it)
+                },
+                textStyle = LocalTextStyle.current.copy(
+                    textAlign = TextAlign.Center, fontSize = 40.sp, fontWeight = FontWeight.Bold,
+                ),
+                colors = TextFieldDefaults.textFieldColors(
+                    backgroundColor = colorResource(id = R.color.cream),
+                    unfocusedIndicatorColor = colorResource(id = R.color.cream),
+                    focusedIndicatorColor = colorResource(id = R.color.cream),
+                ),
+            )
+        }
+    }
+
+}
+
+@Composable
+fun cardColor(){
+
+}
+@Composable
+fun repeatScreen(){
 
 }
 

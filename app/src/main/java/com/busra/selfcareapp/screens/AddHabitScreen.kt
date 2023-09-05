@@ -114,7 +114,7 @@ fun AddHabitScreen(
                                             LocalContext.current.packageName
                                         )
                                     ),
-                                    contentDescription = null, // İconların genellikle content description'ı olmaz
+                                    contentDescription = null, // Iconların genellikle content description'ı olmaz
                                     modifier = Modifier
                                         .size(48.dp)
                                         .padding(end = 5.dp)

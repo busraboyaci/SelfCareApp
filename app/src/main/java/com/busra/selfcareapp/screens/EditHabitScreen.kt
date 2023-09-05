@@ -8,10 +8,14 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -20,6 +24,7 @@ import com.busra.selfcareapp.R
 import com.busra.selfcareapp.components.EditHabitScreenTopRow
 import com.busra.selfcareapp.components.EditHabitTextFieldComposable
 import com.busra.selfcareapp.components.RoundedImageWithWhiteBackground
+import com.busra.selfcareapp.components.describeHabitEdittext
 import com.busra.selfcareapp.data.uievent.HabitUIEvent
 import com.busra.selfcareapp.data.roomdb.HabitDbModel
 import com.busra.selfcareapp.navigate.Screen
@@ -41,13 +46,13 @@ fun EditHabitScreen(
                 .fillMaxWidth()
                 .fillMaxHeight()
                 .background(colorResource(id = R.color.purple_soft))
-                .padding(top = 10.dp),
+                .padding(top = 10.dp)
+                .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             EditHabitScreenTopRow(onButtonClicked = {
                 SelfCareAppRouter.navigateTo(Screen.AddHabitScreen)
             })
-
             // Seçili habit'a ait bilgileri Text olarak göster
             RoundedImageWithWhiteBackground(
                 imageName = selectedHabit.iconResName
@@ -61,6 +66,13 @@ fun EditHabitScreen(
                 }
             )
             Spacer(modifier = Modifier.height(5.dp))
+            describeHabitEdittext(
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(5.dp)
+                    .clip(shape = RoundedCornerShape(15.dp))
+                    .background(colorResource(id = R.color.light_pink))
+            )
 
 
 //            TODO: seçilen ve değiştirilen habiti db update add butonuna tıklandığında
@@ -73,3 +85,4 @@ fun EditHabitScreen(
         SelfCareAppRouter.navigateTo(Screen.AddHabitScreen)
     }
 }
+
