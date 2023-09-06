@@ -21,7 +21,7 @@ class HabitViewModel(
     private val dao: HabitDao
 ) : ViewModel() {
     private val TAG = HabitViewModel::class.simpleName
-    var habitUIState = mutableStateOf(HabitUIState())
+    private var habitUIState = mutableStateOf(HabitUIState())
     private val _shortType = MutableStateFlow(SortType.HABIT_NAME)
     private val _habits = _shortType
 
@@ -80,6 +80,8 @@ class HabitViewModel(
                 }
             }
 
+
+
             is HabitEvent.SetHabitName -> {
                 viewModelScope.launch {
                     _state.update {
@@ -122,8 +124,12 @@ class HabitViewModel(
                 )
                 printState()
             }
-
-            else -> {}
+            is HabitUIEvent.SetHabitBackground -> {
+                habitUIState.value = habitUIState.value.copy(
+                    habitBackground = event.habitBackground
+                )
+                printState()
+            }
         }
     }
 
@@ -144,6 +150,8 @@ class HabitViewModel(
         Log.d(TAG, "Inside_printState")
         Log.d(TAG, habitUIState.value.toString())
     }
+
+
 
 
 

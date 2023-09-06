@@ -30,6 +30,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
@@ -109,7 +110,6 @@ fun EditHabitScreenTopRow(onButtonClicked: () -> Unit, selectedHabit: Int) {
         ClickableLabel("add", onButtonClicked)
     }
 }
-
 
 @Composable
 fun BackImageButton(onButtonClicked: () -> Unit, drawable: Int) {
@@ -325,29 +325,19 @@ fun cardColor(
                 )
             )
         }
-        Row (){
-            RoundedColorItem(R.color.cream_yellow)
-            RoundedColorItem(R.color.teal_200)
-            RoundedColorItem(R.color.light_pink)
-            RoundedColorItem(R.color.purple_500)
-            RoundedColorItem(R.color.soft_yellow)
-            RoundedColorItem(R.color.soft_pink)
-            RoundedColorItem(R.color.teal_700)
-        }
-
-
     }
 
 }
 
 @Composable
-fun RoundedColorItem(color: Int) {
+fun RoundedColorItem(color: Int, onClick: () -> Unit) {
     Box(
         modifier = Modifier
             .size(55.dp)
             .padding(8.dp)
             .border(3.dp, Color.White, shape = CircleShape) // Beyaz kenarlık eklemek için
-            .background(colorResource(color), shape = CircleShape),
+            .background(colorResource(color), shape = CircleShape)
+            .clickable { onClick() } // Tıklama özelliği ekleniyor
     )
 }
 
