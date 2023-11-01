@@ -25,4 +25,10 @@ class UserSettingsManager(private val context: Context) {
             preferences[CHECKBOX_KEY] = value
         }
     }
+    suspend fun clearRememberMeValue() {
+        dataStore.edit { preferences ->
+            preferences.remove(CHECKBOX_KEY)
+        }
+    }
+
 }

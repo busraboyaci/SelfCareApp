@@ -35,6 +35,7 @@ import com.busra.selfcareapp.bottombar.BottomBarScreen
 import com.busra.selfcareapp.components.UserInformationTopBar
 import com.busra.selfcareapp.data.viewModel.HomeViewModel
 import com.busra.selfcareapp.data.datastore.UserSettingsManager
+import com.busra.selfcareapp.navigate.ObserveScreenChanges
 import com.busra.selfcareapp.navigate.Screen
 import com.busra.selfcareapp.navigate.SelfCareAppRouter
 import com.google.firebase.auth.FirebaseAuth
@@ -83,16 +84,17 @@ fun HomeScreen(homeViewModel: HomeViewModel = viewModel()) {
                     }
                 },
                     onNotificationButtonClick = {})
-            } else {
-                UserInformationTopBar(userName = "userName", onMenuButtonClick = {
-                    homeViewModel.logout()
-                    scope.launch {
-                        dataStore.setCheckboxValue(false)
-                    }
-                },
-                    onNotificationButtonClick = {})
             }
-//            ObserveScreenChanges()
+//            else {
+//                UserInformationTopBar(userName = "userName", onMenuButtonClick = {
+//                    homeViewModel.logout()
+//                    scope.launch {
+//                        dataStore.setCheckboxValue(false)
+//                    }
+//                },
+//                    onNotificationButtonClick = {})
+//            }
+            ObserveScreenChanges()
 
 
         }

@@ -50,10 +50,7 @@ fun EditHabitScreen(
     // Renk değişikliği izlemek için bir MutableState kullanın
     val backgroundColorState = remember { mutableStateOf(currentSelectedHabit.backgroundColor) }
 
-    // Renk değiştiğinde arka plan rengini güncelleyin
-    LaunchedEffect(backgroundColorState.value) {
-        editHabitScreenViewModel.habitUIEvent(HabitUIEvent.SetHabitBackground(backgroundColorState.value))
-    }
+
     Surface(
         modifier = Modifier
             .fillMaxSize()
@@ -69,10 +66,18 @@ fun EditHabitScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             EditHabitScreenTopRow(
-                onButtonClicked = {
+                backOnButtonClicked = {
                     SelfCareAppRouter.navigateTo(Screen.AddHabitScreen)
                 },
-                currentSelectedHabit.backgroundColor
+                onButtonClicked = {
+//                    add habit onclick to db
+                    // Renk değiştiğinde arka plan rengini güncelleyin
+                    editHabitScreenViewModel.habitUIEvent(HabitUIEvent.SetHabitBackground(backgroundColorState.value))
+//                    LaunchedEffect(backgroundColorState.value) {
+//                        editHabitScreenViewModel.habitUIEvent(HabitUIEvent.SetHabitBackground(backgroundColorState.value))
+//                    }
+                },
+                selectedHabit = currentSelectedHabit.backgroundColor
             )
             // Seçili habit'a ait bilgileri Text olarak göster
             RoundedImageWithWhiteBackground(
@@ -101,32 +106,32 @@ fun EditHabitScreen(
             Row {
                 RoundedColorItem(R.color.cream_yellow, onClick = {
                     backgroundColorState.value = R.color.cream_yellow
-                    currentSelectedHabit.backgroundColor = R.color.cream_yellow
+                    currentSelectedHabit.backgroundColor = backgroundColorState.value
                     editHabitScreenViewModel.habitUIEvent(HabitUIEvent.SetHabitBackground(currentSelectedHabit.backgroundColor))
                     print("currentSelectedHabit.backgroundColor : "+currentSelectedHabit.backgroundColor)
 
                 })
                 RoundedColorItem(R.color.teal_200, onClick = {
                     backgroundColorState.value = R.color.teal_200
-                    currentSelectedHabit.backgroundColor = R.color.teal_200
+                    currentSelectedHabit.backgroundColor = backgroundColorState.value
                     editHabitScreenViewModel.habitUIEvent(HabitUIEvent.SetHabitBackground(R.color.teal_200))
                     print("currentSelectedHabit.backgroundColor : "+currentSelectedHabit.backgroundColor)
                 })
                 RoundedColorItem(R.color.light_pink, onClick = {
                     backgroundColorState.value = R.color.light_pink
-                    currentSelectedHabit.backgroundColor = R.color.light_pink
+                    currentSelectedHabit.backgroundColor = backgroundColorState.value
                     editHabitScreenViewModel.habitUIEvent(HabitUIEvent.SetHabitBackground(R.color.light_pink))
                     print("currentSelectedHabit.backgroundColor : "+currentSelectedHabit.backgroundColor)
                 })
                 RoundedColorItem(R.color.purple_500, onClick = {
                     backgroundColorState.value = R.color.purple_500
-                    currentSelectedHabit.backgroundColor = R.color.purple_500
+                    currentSelectedHabit.backgroundColor = backgroundColorState.value
                     editHabitScreenViewModel.habitUIEvent(HabitUIEvent.SetHabitBackground(R.color.purple_500))
                     print("currentSelectedHabit.backgroundColor : "+currentSelectedHabit.backgroundColor)
                 })
                 RoundedColorItem(R.color.soft_yellow, onClick = {
                     backgroundColorState.value = R.color.soft_yellow
-                    currentSelectedHabit.backgroundColor = R.color.soft_yellow
+                    currentSelectedHabit.backgroundColor = backgroundColorState.value
                     editHabitScreenViewModel.habitUIEvent(HabitUIEvent.SetHabitBackground(R.color.soft_yellow))
                     print("currentSelectedHabit.backgroundColor : "+currentSelectedHabit.backgroundColor)
                 })

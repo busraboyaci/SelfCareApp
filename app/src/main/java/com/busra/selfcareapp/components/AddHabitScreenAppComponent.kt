@@ -84,7 +84,7 @@ fun ClickableLabel(
 }
 
 @Composable
-fun EditHabitScreenTopRow(onButtonClicked: () -> Unit, selectedHabit: Int) {
+fun EditHabitScreenTopRow(onButtonClicked: () -> Unit, backOnButtonClicked: () -> Unit, selectedHabit: Int) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -94,7 +94,7 @@ fun EditHabitScreenTopRow(onButtonClicked: () -> Unit, selectedHabit: Int) {
             .background(color = colorResource(id = selectedHabit)),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        BackImageButton(onButtonClicked = onButtonClicked, R.drawable.back)
+        BackImageButton(onButtonClicked = backOnButtonClicked, R.drawable.back)
         Spacer(modifier = Modifier.weight(1f))
         Text(
             text = "Edit",

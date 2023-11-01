@@ -4,8 +4,6 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
-import androidx.datastore.dataStore
-import com.busra.selfcareapp.SelfCareApp
 
 open class Screen {
     object SignUpScreen : Screen()

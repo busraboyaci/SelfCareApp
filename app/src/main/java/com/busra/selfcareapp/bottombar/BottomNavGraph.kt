@@ -19,7 +19,7 @@ fun BottomNavGraph(navHostController: NavHostController) {
             SelfCareAppRouter.navigateTo(Screen.HomeScreen)
         }
         composable(route = BottomBarScreen.Profile.route){
-//            ObserveScreenChanges()
+            ObserveScreenChanges()
             SelfCareAppRouter.navigateTo(Screen.ProfileScreen)
         }
         composable(route = BottomBarScreen.Settings.route){

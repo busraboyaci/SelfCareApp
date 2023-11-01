@@ -17,6 +17,7 @@ import com.busra.selfcareapp.app.SelfCareApp
 import com.busra.selfcareapp.data.roomdb.HabitDatabase
 import com.busra.selfcareapp.navigate.Screen
 import com.busra.selfcareapp.navigate.SelfCareAppRouter
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.launch
 
 
@@ -69,15 +70,27 @@ class MainActivity : ComponentActivity() {
 
 
         setContent {
-
+            
             val checkboxValue by userSettingsManager.getCheckboxValueFlow.collectAsState(initial = false)
             if (checkboxValue) {
-                SelfCareAppRouter.currentScreen.value = Screen.HomeScreen
+                if (FirebaseAuth.getInstance().currentUser != null) {
+                    // User is logged in, and "Remember Me" is checked, navigate to HomeScreen
+                    SelfCareAppRouter.currentScreen.value = Screen.HomeScreen
+                } else {
+                    // User is not logged in, so they need to log in again
+                    // You can navigate to the login screen here or handle it as needed.
+                }
+            } else {
+                // "Remember Me" is not checked, user needs to log in
+                // You can navigate to the login screen here or handle it as needed.
+
             }
 
-//            TODO: login checkbox test et - Test yaz !.
+            //            TODO: login checkbox test et - Test yaz !.
             SelfCareApp(viewModel)
 //            MainScreen()
+
+
         }
     }
 }

@@ -38,7 +38,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.busra.selfcareapp.HabitEvent
-import com.busra.selfcareapp.HabitState
 import com.busra.selfcareapp.HabitViewModel
 import com.busra.selfcareapp.R
 import com.busra.selfcareapp.components.AddHabitScreenTopRow

@@ -45,28 +45,54 @@ class LoginViewModel(): ViewModel() {
         validateLoginUIDataWithRules()
     }
 
+//    private fun login() {
+//        loginInProgress.value = true
+//        val email = loginUIState.value.email
+//        val password = loginUIState.value.password
+//        FirebaseAuth
+//            .getInstance()
+//            .signInWithEmailAndPassword(email, password)
+//            .addOnCompleteListener{
+//                loginInProgress.value = false
+//                Log.d(TAG, "login_success_addOnCompleteListener")
+//                Log.d(TAG, "${it.isSuccessful}")
+//                if (it.isSuccessful){
+//                    SelfCareAppRouter.navigateTo(Screen.HomeScreen)
+//                    Log.d(TAG, "isSuccessful in")
+//                }
+//            }
+//            .addOnFailureListener{
+//                Log.d(TAG, "login_failure")
+//                Log.d(TAG, "${it.localizedMessage}")
+//                rememberMeIsChecked.value = false
+//            }
+//
+//    }
+
     private fun login() {
         loginInProgress.value = true
         val email = loginUIState.value.email
         val password = loginUIState.value.password
-        FirebaseAuth
-            .getInstance()
-            .signInWithEmailAndPassword(email, password)
-            .addOnCompleteListener{
+
+        FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password)
+            .addOnCompleteListener { task ->
                 loginInProgress.value = false
-                Log.d(TAG, "login_success_addOnCompleteListener")
-                Log.d(TAG, "${it.isSuccessful}")
-                if (it.isSuccessful){
+                if (task.isSuccessful) {
+                    Log.d(TAG, "login_success router")
                     SelfCareAppRouter.navigateTo(Screen.HomeScreen)
-                    Log.d(TAG, "isSuccessful in")
                 }
             }
-            .addOnFailureListener{
+            .addOnFailureListener { exception ->
+                loginInProgress.value = false
                 Log.d(TAG, "login_failure")
-                Log.d(TAG, "${it.localizedMessage}")
-                rememberMeIsChecked.value = false
-            }
+                Log.d(TAG, "${exception.localizedMessage}")
 
+                if (loginUIState.value.rememberMeCheckBoxClicked) {
+                    // The "Remember Me" checkbox is checked, but the login failed.
+                    // Handle this case here, e.g., show an error message.
+                    Log.d(TAG, "login_failure")
+                }
+            }
     }
 
     private fun validateLoginUIDataWithRules(){

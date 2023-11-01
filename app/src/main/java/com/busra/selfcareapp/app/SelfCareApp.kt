@@ -13,7 +13,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.busra.selfcareapp.HabitEvent
-import com.busra.selfcareapp.HabitState
 import com.busra.selfcareapp.HabitViewModel
 import com.busra.selfcareapp.bottombar.BottomNavGraph
 import com.busra.selfcareapp.insertDefaultItems

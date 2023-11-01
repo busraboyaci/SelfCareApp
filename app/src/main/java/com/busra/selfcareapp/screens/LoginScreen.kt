@@ -1,5 +1,6 @@
 package com.busra.selfcareapp.screens
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -87,13 +88,35 @@ fun LoginScreen(loginViewModel: LoginViewModel = viewModel()) {
                 ButtonComponent(
                     value = stringResource(id = R.string.login),
                     onButtonClicked = {
-                        loginViewModel.onEvent(LoginUIEvent.LoginButtonClicked)
-                        scope.launch {
-                            dataStore.setCheckboxValue(loginViewModel.rememberMeIsChecked.value)
+                        // Check the state of the "Remember Me" checkbox first
+                        if (loginViewModel.loginUIState.value.rememberMeCheckBoxClicked) {
+                            // Save the "Remember Me" choice in your data store
+                            scope.launch {
+                                dataStore.setCheckboxValue(true)
+                            }
+                        } else {
+                            // Handle the case when "Remember Me" is not checked, e.g., clear any saved values.
+                            scope.launch {
+                                dataStore.clearRememberMeValue()
+                            }
                         }
+
+                        // Now initiate the login process
+                        loginViewModel.onEvent(LoginUIEvent.LoginButtonClicked)
                     },
                     isEnabled = loginViewModel.allValidationsPassed.value,
                 )
+
+//                ButtonComponent(
+//                    value = stringResource(id = R.string.login),
+//                    onButtonClicked = {
+//                        loginViewModel.onEvent(LoginUIEvent.LoginButtonClicked)
+//                        scope.launch {
+//                            dataStore.setCheckboxValue(loginViewModel.rememberMeIsChecked.value)
+//                        }
+//                    },
+//                    isEnabled = loginViewModel.allValidationsPassed.value,
+//                )
                 Spacer(modifier = Modifier.height(20.dp))
                 DividerTextComponent()
 
@@ -104,6 +127,9 @@ fun LoginScreen(loginViewModel: LoginViewModel = viewModel()) {
             }
         }
         if (loginViewModel.loginInProgress.value) {
+            Log.d("loginViewModel.loginInProgress.value: ",
+                loginViewModel.loginInProgress.value.toString()
+            )
             CircularProgressIndicator()
         }
     }
