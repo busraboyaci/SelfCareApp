@@ -125,6 +125,10 @@ fun AddHabitScreen(
                                         .weight(1f) // Yatayda tam genişlik
                                         .padding(start = 16.dp), // Sol kenardan boşluk
                                 )
+                                Text(
+                                    text = "${habit.systemDefined}",
+                                    fontSize = 25.sp,
+                                )
                             }
                             Spacer(modifier = Modifier.height(5.dp))
                         }

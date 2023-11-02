@@ -46,7 +46,6 @@ fun EditHabitScreen(
     editHabitScreenViewModel: HabitViewModel = viewModel(),
 ) {
     val currentSelectedHabit by remember { mutableStateOf(selectedHabit) }
-
     // Renk değişikliği izlemek için bir MutableState kullanın
     val backgroundColorState = remember { mutableStateOf(currentSelectedHabit.backgroundColor) }
 
@@ -73,6 +72,8 @@ fun EditHabitScreen(
 //                    add habit onclick to db
                     // Renk değiştiğinde arka plan rengini güncelleyin
                     editHabitScreenViewModel.habitUIEvent(HabitUIEvent.SetHabitBackground(backgroundColorState.value))
+                    editHabitScreenViewModel.setSystemDefinedToFalse(currentSelectedHabit)
+
 //                    LaunchedEffect(backgroundColorState.value) {
 //                        editHabitScreenViewModel.habitUIEvent(HabitUIEvent.SetHabitBackground(backgroundColorState.value))
 //                    }

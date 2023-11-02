@@ -4,11 +4,13 @@ import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.busra.selfcareapp.data.repository.HabitRepository
 import com.busra.selfcareapp.data.uievent.HabitUIEvent
 import com.busra.selfcareapp.data.uistate.HabitUIState
 import com.busra.selfcareapp.data.roomdb.HabitDao
 import com.busra.selfcareapp.data.roomdb.HabitDbModel
 import com.busra.selfcareapp.data.roomdb.SortType
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
@@ -16,9 +18,10 @@ import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class HabitViewModel(
-    private val dao: HabitDao
+    private val dao: HabitDao,
 ) : ViewModel() {
     private val TAG = HabitViewModel::class.simpleName
     private var habitUIState = mutableStateOf(HabitUIState())
@@ -149,6 +152,22 @@ class HabitViewModel(
     private fun printState() {
         Log.d(TAG, "Inside_printState")
         Log.d(TAG, habitUIState.value.toString())
+    }
+
+    fun updateHabit(habit: HabitDbModel) {
+        viewModelScope.launch {
+            dao.upsertHabit(habit)
+        }
+    }
+
+    fun setSystemDefinedToFalse(habit: HabitDbModel) {
+
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                val updatedHabit = habit.copy(systemDefined = false)
+                dao.upsertHabit(updatedHabit)
+            }
+        }
     }
 
 

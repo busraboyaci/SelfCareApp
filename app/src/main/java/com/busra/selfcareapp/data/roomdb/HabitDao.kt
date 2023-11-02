@@ -9,17 +9,17 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface HabitDao {
     @Upsert
-    suspend fun upsertHabit(habit: HabitDbModel)
+    fun upsertHabit(habit: HabitDbModel)
 
     @Delete
     suspend fun deleteHabit(habit: HabitDbModel)
 
-    @Query("SELECT * FROM habitdbmodel ORDER BY habitName ASC")
+    @Query("SELECT * FROM habit_table ORDER BY habitName ASC")
     fun getContactOrderedByHabitName(): Flow<List<HabitDbModel>>
 
-    @Query("SELECT COUNT(*) FROM habitdbmodel")
+    @Query("SELECT COUNT(*) FROM habit_table")
     suspend fun getHabitCount(): Int
-    @Query("SELECT * FROM habitdbmodel WHERE id = :habitId")
+    @Query("SELECT * FROM habit_table WHERE id = :habitId")
     suspend fun getHabitById(habitId: Int): HabitDbModel?
 
 }

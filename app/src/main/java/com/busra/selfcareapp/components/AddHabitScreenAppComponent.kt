@@ -73,13 +73,16 @@ fun ClickableLabel(
         fontSize = 16.sp,
         color = Color.Black,
         modifier = modifier
-            .clickable { onClick.invoke() } // Tıklama işlevselliği ekleme
+            .clickable {
+                onClick.invoke()
+            } // Tıklama işlevselliği ekleme
             .padding(8.dp), // Boşluk ekleme
         style = TextStyle(
             fontSize = 16.sp,
             fontWeight = FontWeight.Bold,
             fontStyle = FontStyle.Normal
-        )
+        ),
+
     )
 }
 
