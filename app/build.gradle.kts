@@ -54,6 +54,7 @@ android {
 
 dependencies {
 
+    implementation("androidx.compose.material3:material3:1.1.2")
     val composeVersion = "1.4.2"
 
     implementation("androidx.core:core-ktx:1.10.0")
@@ -80,6 +81,9 @@ dependencies {
     //    BottomNavigation
     implementation ("androidx.compose.material:material:1.4.2")
     implementation("androidx.navigation:navigation-compose:2.7.0")
+
+    implementation ("androidx.compose.material:material-icons-extended:1.2.0")
+
 
 
 }

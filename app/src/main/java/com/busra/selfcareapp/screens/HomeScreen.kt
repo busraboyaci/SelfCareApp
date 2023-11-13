@@ -32,6 +32,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.busra.selfcareapp.R
 import com.busra.selfcareapp.bottombar.BottomBarScreen
+import com.busra.selfcareapp.components.CalendarApp
 import com.busra.selfcareapp.components.UserInformationTopBar
 import com.busra.selfcareapp.data.viewModel.HomeViewModel
 import com.busra.selfcareapp.data.datastore.UserSettingsManager
@@ -85,15 +86,7 @@ fun HomeScreen(homeViewModel: HomeViewModel = viewModel()) {
                 },
                     onNotificationButtonClick = {})
             }
-//            else {
-//                UserInformationTopBar(userName = "userName", onMenuButtonClick = {
-//                    homeViewModel.logout()
-//                    scope.launch {
-//                        dataStore.setCheckboxValue(false)
-//                    }
-//                },
-//                    onNotificationButtonClick = {})
-//            }
+            CalendarApp()
             ObserveScreenChanges()
 
 

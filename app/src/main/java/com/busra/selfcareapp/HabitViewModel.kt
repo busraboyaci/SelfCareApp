@@ -164,7 +164,7 @@ class HabitViewModel(
 
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
-                val updatedHabit = habit.copy(systemDefined = false)
+                val updatedHabit = habit.copy(systemDefined = !habit.systemDefined)
                 dao.upsertHabit(updatedHabit)
             }
         }
