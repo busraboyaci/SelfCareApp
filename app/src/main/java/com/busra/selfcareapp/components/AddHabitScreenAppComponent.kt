@@ -1,5 +1,6 @@
 package com.busra.selfcareapp.components
 
+import android.text.Layout
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -9,6 +10,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
@@ -20,9 +22,11 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
 import androidx.compose.material.LocalTextStyle
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Switch
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.material.TextFieldDefaults
+import androidx.compose.material.icons.materialIcon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -34,6 +38,7 @@ import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.semantics.Role.Companion.Switch
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -42,6 +47,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.busra.selfcareapp.R
 import com.busra.selfcareapp.data.roomdb.HabitDbModel
+import com.busra.selfcareapp.ui.GrayColor
+import com.busra.selfcareapp.ui.HalfGray
 import com.google.android.material.color.ColorResourcesOverride
 
 @Composable
@@ -345,8 +352,76 @@ fun RoundedColorItem(color: Int, onClick: () -> Unit) {
 }
 
 @Composable
-fun repeatScreen() {
+fun RepeatScreen(modifier: Modifier) {
+    val mCheckedState = remember{ mutableStateOf(false)}
 
+    Column (
+        modifier = modifier,
+    ){
+        Text(
+            text = "Repeat",
+            fontSize = 16.sp,
+            color = Color.Black,
+            style = TextStyle(
+                fontSize = 16.sp,
+                fontWeight = FontWeight.Bold,
+                fontStyle = FontStyle.Normal
+            ),
+            textAlign = TextAlign.Start
+        )
+        Spacer(modifier = Modifier.width(5.dp))
+        Column (
+            modifier = Modifier
+                .clip(shape = RoundedCornerShape(20.dp))
+                .fillMaxWidth()
+                .height(150.dp)
+                .background(Color.White),
+        ){
+            Row (
+                verticalAlignment = Alignment.CenterVertically,
+                ){
+                Spacer(modifier = Modifier.width(5.dp))
+                Icon(
+                    painter = painterResource(id = R.drawable.baseline_event_repeat_24),
+                    contentDescription = "repeat",
+                    modifier = Modifier
+                        .size(25.dp)
+                )
+                Spacer(modifier = Modifier.width(10.dp))
+                Text(  text = "Repeat",
+                    fontSize = 16.sp,
+                    color = HalfGray,
+                    style = TextStyle(
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.Bold,
+                        fontStyle = FontStyle.Normal
+                    )
+                )
+                Spacer(modifier = Modifier.weight(1f))
+                Switch(checked = mCheckedState.value, onCheckedChange = {mCheckedState.value = it})
+            }
+            DrawThinLine(modifier)
+        }
+
+
+    }
+}
+
+@Composable
+fun DrawThinLine(modifier: Modifier) {
+    // Ince çizgiyi çizmek için Box kullanabiliriz.
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color.White)
+    ) {
+        Box(
+            modifier = Modifier
+                .height(1.dp) // Çizgi yüksekliği
+                .fillMaxSize()
+                .background(GrayColor)
+        )
+    }
 }
 
 

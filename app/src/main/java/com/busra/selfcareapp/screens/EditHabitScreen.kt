@@ -1,7 +1,9 @@
 package com.busra.selfcareapp.screens
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -9,9 +11,12 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -30,6 +35,7 @@ import com.busra.selfcareapp.HabitViewModel
 import com.busra.selfcareapp.R
 import com.busra.selfcareapp.components.EditHabitScreenTopRow
 import com.busra.selfcareapp.components.EditHabitTextFieldComposable
+import com.busra.selfcareapp.components.RepeatScreen
 import com.busra.selfcareapp.components.RoundedColorItem
 import com.busra.selfcareapp.components.RoundedImageWithWhiteBackground
 import com.busra.selfcareapp.components.cardColor
@@ -48,6 +54,7 @@ fun EditHabitScreen(
     val currentSelectedHabit by remember { mutableStateOf(selectedHabit) }
     // Renk değişikliği izlemek için bir MutableState kullanın
     val backgroundColorState = remember { mutableStateOf(currentSelectedHabit.backgroundColor) }
+    val scrollState = rememberScrollState()
 
 
     Surface(
@@ -60,8 +67,8 @@ fun EditHabitScreen(
                 .fillMaxWidth()
                 .fillMaxHeight()
                 .background(colorResource(id = currentSelectedHabit.backgroundColor))
-                .padding(top = 10.dp)
-                .verticalScroll(rememberScrollState()),
+                .padding(top = 10.dp),
+            verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             EditHabitScreenTopRow(
@@ -80,75 +87,95 @@ fun EditHabitScreen(
                 },
                 selectedHabit = currentSelectedHabit.backgroundColor
             )
-            // Seçili habit'a ait bilgileri Text olarak göster
-            RoundedImageWithWhiteBackground(
-                imageName = currentSelectedHabit.iconResName
-            )
+
+            LazyColumn(
+                contentPadding = PaddingValues(8.dp),
+                modifier = Modifier.fillMaxSize(),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+
+            ) {
+                item {
+                    // Seçili habit'a ait bilgileri Text olarak göster
+                    RoundedImageWithWhiteBackground(
+                        imageName = currentSelectedHabit.iconResName
+                    )
 //            TODO: Textfield eklenecek
 
-            EditHabitTextFieldComposable(
-                selectedHabit = currentSelectedHabit,
-                onTextSelected = {
-                    editHabitScreenViewModel.habitUIEvent(HabitUIEvent.HabitNameChanged(it))
+                    EditHabitTextFieldComposable(
+                        selectedHabit = currentSelectedHabit,
+                        onTextSelected = {
+                            editHabitScreenViewModel.habitUIEvent(HabitUIEvent.HabitNameChanged(it))
+                        }
+                    )
+                    Spacer(modifier = Modifier.height(5.dp))
+                    describeHabitEdittext(
+                        modifier = Modifier
+                            .weight(1f)
+                            .padding(5.dp)
+                            .height(100.dp)
+                            .clip(shape = RoundedCornerShape(15.dp))
+                            .background(colorResource(id = backgroundColorState.value)),
+                        currentSelectedHabit.backgroundColor
+                    )
+
+                    cardColor(currentSelectedHabit.backgroundColor)
+                    Row {
+                        RoundedColorItem(R.color.cream_yellow, onClick = {
+                            backgroundColorState.value = R.color.cream_yellow
+                            currentSelectedHabit.backgroundColor = backgroundColorState.value
+                            editHabitScreenViewModel.habitUIEvent(HabitUIEvent.SetHabitBackground(currentSelectedHabit.backgroundColor))
+                            print("currentSelectedHabit.backgroundColor : "+currentSelectedHabit.backgroundColor)
+
+                        })
+                        RoundedColorItem(R.color.teal_200, onClick = {
+                            backgroundColorState.value = R.color.teal_200
+                            currentSelectedHabit.backgroundColor = backgroundColorState.value
+                            editHabitScreenViewModel.habitUIEvent(HabitUIEvent.SetHabitBackground(R.color.teal_200))
+                            print("currentSelectedHabit.backgroundColor : "+currentSelectedHabit.backgroundColor)
+                        })
+                        RoundedColorItem(R.color.light_pink, onClick = {
+                            backgroundColorState.value = R.color.light_pink
+                            currentSelectedHabit.backgroundColor = backgroundColorState.value
+                            editHabitScreenViewModel.habitUIEvent(HabitUIEvent.SetHabitBackground(R.color.light_pink))
+                            print("currentSelectedHabit.backgroundColor : "+currentSelectedHabit.backgroundColor)
+                        })
+                        RoundedColorItem(R.color.purple_500, onClick = {
+                            backgroundColorState.value = R.color.purple_500
+                            currentSelectedHabit.backgroundColor = backgroundColorState.value
+                            editHabitScreenViewModel.habitUIEvent(HabitUIEvent.SetHabitBackground(R.color.purple_500))
+                            print("currentSelectedHabit.backgroundColor : "+currentSelectedHabit.backgroundColor)
+                        })
+                        RoundedColorItem(R.color.soft_yellow, onClick = {
+                            backgroundColorState.value = R.color.soft_yellow
+                            currentSelectedHabit.backgroundColor = backgroundColorState.value
+                            editHabitScreenViewModel.habitUIEvent(HabitUIEvent.SetHabitBackground(R.color.soft_yellow))
+                            print("currentSelectedHabit.backgroundColor : "+currentSelectedHabit.backgroundColor)
+                        })
+                        RoundedColorItem(R.color.soft_pink, onClick = {
+                            backgroundColorState.value = R.color.soft_pink
+                            currentSelectedHabit.backgroundColor = R.color.soft_pink
+                            editHabitScreenViewModel.habitUIEvent(HabitUIEvent.SetHabitBackground(R.color.soft_pink))
+                            print("currentSelectedHabit.backgroundColor : "+currentSelectedHabit.backgroundColor)
+                        })
+                        RoundedColorItem(R.color.teal_700, onClick = {
+                            backgroundColorState.value = R.color.teal_700
+                            currentSelectedHabit.backgroundColor = R.color.teal_700
+                            editHabitScreenViewModel.habitUIEvent(HabitUIEvent.SetHabitBackground(R.color.teal_700))
+                            print("currentSelectedHabit.backgroundColor : "+currentSelectedHabit.backgroundColor)
+                        })
+                    }
+
+//            TODO: repeat alanı eklenecek -> set a cycle your plan true or do it once select date
+                    RepeatScreen(
+                        modifier = Modifier
+                            .padding(8.dp)
+                    )
                 }
-            )
-            Spacer(modifier = Modifier.height(5.dp))
-            describeHabitEdittext(
-                modifier = Modifier
-                    .weight(1f)
-                    .padding(5.dp)
-                    .height(100.dp)
-                    .clip(shape = RoundedCornerShape(15.dp))
-                    .background(colorResource(id = backgroundColorState.value)),
-                currentSelectedHabit.backgroundColor
-            )
-
-            cardColor(currentSelectedHabit.backgroundColor)
-            Row {
-                RoundedColorItem(R.color.cream_yellow, onClick = {
-                    backgroundColorState.value = R.color.cream_yellow
-                    currentSelectedHabit.backgroundColor = backgroundColorState.value
-                    editHabitScreenViewModel.habitUIEvent(HabitUIEvent.SetHabitBackground(currentSelectedHabit.backgroundColor))
-                    print("currentSelectedHabit.backgroundColor : "+currentSelectedHabit.backgroundColor)
-
-                })
-                RoundedColorItem(R.color.teal_200, onClick = {
-                    backgroundColorState.value = R.color.teal_200
-                    currentSelectedHabit.backgroundColor = backgroundColorState.value
-                    editHabitScreenViewModel.habitUIEvent(HabitUIEvent.SetHabitBackground(R.color.teal_200))
-                    print("currentSelectedHabit.backgroundColor : "+currentSelectedHabit.backgroundColor)
-                })
-                RoundedColorItem(R.color.light_pink, onClick = {
-                    backgroundColorState.value = R.color.light_pink
-                    currentSelectedHabit.backgroundColor = backgroundColorState.value
-                    editHabitScreenViewModel.habitUIEvent(HabitUIEvent.SetHabitBackground(R.color.light_pink))
-                    print("currentSelectedHabit.backgroundColor : "+currentSelectedHabit.backgroundColor)
-                })
-                RoundedColorItem(R.color.purple_500, onClick = {
-                    backgroundColorState.value = R.color.purple_500
-                    currentSelectedHabit.backgroundColor = backgroundColorState.value
-                    editHabitScreenViewModel.habitUIEvent(HabitUIEvent.SetHabitBackground(R.color.purple_500))
-                    print("currentSelectedHabit.backgroundColor : "+currentSelectedHabit.backgroundColor)
-                })
-                RoundedColorItem(R.color.soft_yellow, onClick = {
-                    backgroundColorState.value = R.color.soft_yellow
-                    currentSelectedHabit.backgroundColor = backgroundColorState.value
-                    editHabitScreenViewModel.habitUIEvent(HabitUIEvent.SetHabitBackground(R.color.soft_yellow))
-                    print("currentSelectedHabit.backgroundColor : "+currentSelectedHabit.backgroundColor)
-                })
-                RoundedColorItem(R.color.soft_pink, onClick = {
-                    backgroundColorState.value = R.color.soft_pink
-                    currentSelectedHabit.backgroundColor = R.color.soft_pink
-                    editHabitScreenViewModel.habitUIEvent(HabitUIEvent.SetHabitBackground(R.color.soft_pink))
-                    print("currentSelectedHabit.backgroundColor : "+currentSelectedHabit.backgroundColor)
-                })
-                RoundedColorItem(R.color.teal_700, onClick = {
-                    backgroundColorState.value = R.color.teal_700
-                    currentSelectedHabit.backgroundColor = R.color.teal_700
-                    editHabitScreenViewModel.habitUIEvent(HabitUIEvent.SetHabitBackground(R.color.teal_700))
-                    print("currentSelectedHabit.backgroundColor : "+currentSelectedHabit.backgroundColor)
-                })
             }
+
+
+
 //            TODO: seçilen ve değiştirilen habiti db update add butonuna tıklandığında
 //            editHabitScreenViewModel.onEvent(HabitEvent.UpdateHabit(selectedHabit))
         }
