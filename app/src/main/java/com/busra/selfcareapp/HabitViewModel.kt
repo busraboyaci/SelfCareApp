@@ -21,8 +21,9 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class HabitViewModel(
-    private val dao: HabitDao,
-) : ViewModel() {
+//    private val dao: HabitDao,
+    private val habitRepository: HabitRepository) : ViewModel()
+ {
     private val TAG = HabitViewModel::class.simpleName
     private var habitUIState = mutableStateOf(HabitUIState())
     private val _shortType = MutableStateFlow(SortType.HABIT_NAME)
@@ -30,7 +31,7 @@ class HabitViewModel(
 
         .flatMapLatest { shortType ->
             when (shortType) {
-                SortType.HABIT_NAME -> dao.getContactOrderedByHabitName()
+                SortType.HABIT_NAME -> habitRepository.getContactOrderedByHabitName()
             }
         }
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(), emptyList())
@@ -97,7 +98,7 @@ class HabitViewModel(
 //            is HabitEvent.SortHabits -> TODO()
             is HabitEvent.DeleteHabit -> {
                 viewModelScope.launch {
-                    dao.deleteHabit(event.habit)
+                    habitRepository.deleteHabit(event.habit)
                 }
             }
 
@@ -167,6 +168,13 @@ class HabitViewModel(
                 val updatedHabit = habit.copy(systemDefined = !habit.systemDefined)
                 dao.upsertHabit(updatedHabit)
             }
+        }
+    }
+
+    fun getCurrentHabitList(habit: HabitDbModel){
+        viewModelScope.launch {
+            val currentHabitList = habitRepository.getHabitById(habit.id)
+
         }
     }
 

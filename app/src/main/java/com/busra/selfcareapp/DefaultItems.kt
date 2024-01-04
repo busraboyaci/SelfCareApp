@@ -1,5 +1,6 @@
 package com.busra.selfcareapp
 
+import com.busra.selfcareapp.data.repository.HabitRepository
 import com.busra.selfcareapp.data.roomdb.HabitDatabase
 import com.busra.selfcareapp.data.roomdb.HabitDbModel
 
@@ -21,9 +22,8 @@ val defaultItems = listOf(
 //    HabitDbModel(habitName = "Item 5", iconResName = "yoga", habitDescription = "Description 5"),
 //    HabitDbModel(habitName = "Item 5", iconResName = "yoga", habitDescription = "Description 5")
 )
-suspend fun insertDefaultItems(database: HabitDatabase) {
-    val dao = database.dao
+suspend fun insertDefaultItems(repository: HabitRepository) {
     defaultItems.forEach { habit ->
-        dao.upsertHabit(habit)
+        repository.upsertHabit(habit)
     }
 }

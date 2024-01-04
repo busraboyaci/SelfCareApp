@@ -14,6 +14,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewmodel.CreationExtras
 import androidx.room.Room
 import com.busra.selfcareapp.app.SelfCareApp
+import com.busra.selfcareapp.data.repository.HabitRepository
+import com.busra.selfcareapp.data.roomdb.HabitDao
 import com.busra.selfcareapp.data.roomdb.HabitDatabase
 import com.busra.selfcareapp.navigate.Screen
 import com.busra.selfcareapp.navigate.SelfCareAppRouter
@@ -31,6 +33,7 @@ class MainActivity : ComponentActivity() {
             "HabitDatabase.db"
         ).build()
     }
+    private val habitRepository = HabitRepository(db.dao)
     // Varsayılan verileri ekle
 
     private val userSettingsManager by lazy {
@@ -44,7 +47,7 @@ class MainActivity : ComponentActivity() {
                     modelClass: Class<T>,
                     extras: CreationExtras
                 ): T {
-                    return HabitViewModel(db.dao) as T
+                    return HabitViewModel(habitRepository) as T
                 }
             }
         }
@@ -67,7 +70,7 @@ class MainActivity : ComponentActivity() {
                 if (habitCount == 0) {
                     // Insert default items
                     withContext(Dispatchers.IO) {
-                        insertDefaultItems(db)
+                        insertDefaultItems(habitRepository)
                     }
                     viewModel.setDefaultItemsInserted(true)
                 } else {
