@@ -176,7 +176,8 @@ fun CalenderHeader(
                 .weight(1f)
                 .align(Alignment.CenterVertically)
         )
-        IconButton(onClick = {
+        IconButton(
+            onClick = {
             // invoke previous callback when its button clicked
             onPrevClickListener(data.startDate.date)
         }) {
@@ -185,7 +186,8 @@ fun CalenderHeader(
                 contentDescription = ""
             )
         }
-        IconButton(onClick = {
+        IconButton(
+            onClick = {
             // invoke next callback when this button is clicked
             onNextClickListener(data.endDate.date)
         }) {
@@ -251,9 +253,9 @@ fun ContentItem(
             // background colors of the selected date
             // and the non-selected date are different
             containerColor = if (date.isSelected) {
-                MaterialTheme.colorScheme.primary
+                colorResource(id = R.color.primary)
             } else {
-                MaterialTheme.colorScheme.secondary
+                Color.LightGray
             }
         ),
     ) {
@@ -283,9 +285,10 @@ fun Content(
     calenderUiModel: CalendarUiModel,
     onDateClickListener: (CalendarUiModel.Date) -> Unit
 ) {
-    LazyRow {
+    LazyRow{
         // pass the visibleDates to the UI
-        items(items = calenderUiModel.visibleDates) { date ->
+        items(
+            items = calenderUiModel.visibleDates) { date ->
             ContentItem(
                 date,
                 onDateClickListener

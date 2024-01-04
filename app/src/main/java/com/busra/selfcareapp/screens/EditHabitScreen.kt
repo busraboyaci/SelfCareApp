@@ -60,7 +60,7 @@ fun EditHabitScreen(
     Surface(
         modifier = Modifier
             .fillMaxSize()
-            .background(colorResource(id = currentSelectedHabit.backgroundColor))
+            .background(colorResource(id = backgroundColorState.value))
     ) {
         Column(
             modifier = Modifier
@@ -78,21 +78,19 @@ fun EditHabitScreen(
                 onButtonClicked = {
 //                    add habit onclick to db
                     // Renk değiştiğinde arka plan rengini güncelleyin
-                    editHabitScreenViewModel.habitUIEvent(HabitUIEvent.SetHabitBackground(backgroundColorState.value))
+//                    editHabitScreenViewModel.habitUIEvent(HabitUIEvent.SetHabitBackground(backgroundColorState.value))
                     editHabitScreenViewModel.setSystemDefinedToFalse(currentSelectedHabit)
-
-//                    LaunchedEffect(backgroundColorState.value) {
-//                        editHabitScreenViewModel.habitUIEvent(HabitUIEvent.SetHabitBackground(backgroundColorState.value))
-//                    }
                 },
                 selectedHabit = currentSelectedHabit.backgroundColor
             )
 
             LazyColumn(
                 contentPadding = PaddingValues(8.dp),
-                modifier = Modifier.fillMaxSize(),
+                modifier = Modifier.fillMaxSize()
+                    .background(colorResource(id = currentSelectedHabit.backgroundColor)),
                 verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally
+                horizontalAlignment = Alignment.CenterHorizontally,
+
 
             ) {
                 item {

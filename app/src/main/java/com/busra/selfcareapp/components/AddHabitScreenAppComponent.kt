@@ -369,7 +369,7 @@ fun RepeatScreen(modifier: Modifier) {
             ),
             textAlign = TextAlign.Start
         )
-        Spacer(modifier = Modifier.width(5.dp))
+        Spacer(modifier = Modifier.height(8.dp))
         Column (
             modifier = Modifier
                 .clip(shape = RoundedCornerShape(20.dp))
@@ -402,8 +402,6 @@ fun RepeatScreen(modifier: Modifier) {
             }
             DrawThinLine(modifier)
         }
-
-
     }
 }
 
@@ -422,6 +420,11 @@ fun DrawThinLine(modifier: Modifier) {
                 .background(GrayColor)
         )
     }
+}
+
+@Composable
+fun SwitchButtonMenu(){
+
 }
 
 
