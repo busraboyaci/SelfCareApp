@@ -1,7 +1,9 @@
 package com.busra.selfcareapp.app
 
 import android.annotation.SuppressLint
+import android.os.Build
 import android.util.Log
+import androidx.annotation.RequiresApi
 import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.Scaffold
@@ -15,6 +17,7 @@ import androidx.navigation.compose.rememberNavController
 import com.busra.selfcareapp.HabitEvent
 import com.busra.selfcareapp.HabitViewModel
 import com.busra.selfcareapp.bottombar.BottomNavGraph
+import com.busra.selfcareapp.data.viewModel.HomeViewModel
 import com.busra.selfcareapp.insertDefaultItems
 import com.busra.selfcareapp.navigate.ObserveScreenChanges
 import com.busra.selfcareapp.navigate.Screen
@@ -31,10 +34,11 @@ import com.busra.selfcareapp.screens.SignUpScreen
 import com.busra.selfcareapp.screens.TermsAndConditionScreen
 import kotlinx.coroutines.launch
 
+@RequiresApi(Build.VERSION_CODES.O)
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun SelfCareApp(
-    viewModel: HabitViewModel
+    viewModel: HabitViewModel,
 ) {
 //    surface is a container
     val navController = rememberNavController()
@@ -73,7 +77,7 @@ fun SelfCareApp(
 
                 is Screen.HomeScreen -> {
                     Log.d("HomeScreen", "HomeScreen()")
-                    HomeScreenWithBottomNav(navController)
+                    HomeScreenWithBottomNav(navController, onEvent = viewModel::onEvent)
                 }
 
                 is Screen.AddHabitScreen -> {
@@ -108,10 +112,13 @@ fun SelfCareApp(
     }
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
-fun HomeScreenWithBottomNav(navController: NavHostController) {
-    HomeScreen()
+fun HomeScreenWithBottomNav(navController: NavHostController,
+                            onEvent: (HabitEvent) -> Unit,
+) {
+    HomeScreen(onEvent = onEvent)
     BottomNavGraph(navController)
 }
 

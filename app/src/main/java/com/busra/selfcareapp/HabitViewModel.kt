@@ -1,7 +1,9 @@
 package com.busra.selfcareapp
 
 import android.util.Log
+import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.busra.selfcareapp.data.repository.HabitRepository
@@ -13,8 +15,10 @@ import com.busra.selfcareapp.data.roomdb.SortType
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -23,20 +27,25 @@ import kotlinx.coroutines.withContext
 class HabitViewModel(
 //    private val dao: HabitDao,
     private val habitRepository: HabitRepository) : ViewModel()
- {
-    private val TAG = HabitViewModel::class.simpleName
+ { private val TAG = HabitViewModel::class.simpleName
     private var habitUIState = mutableStateOf(HabitUIState())
-    private val _shortType = MutableStateFlow(SortType.HABIT_NAME)
-    private val _habits = _shortType
+     private val _shortType = MutableStateFlow(SortType.HABIT_NAME)
+     private val _savedHabitList = MutableLiveData<List<HabitDbModel>>()
+     val savedHabitList: MutableLiveData<List<HabitDbModel>> = _savedHabitList
+     private val _habits = _shortType
 
-        .flatMapLatest { shortType ->
+         .flatMapLatest { shortType ->
             when (shortType) {
                 SortType.HABIT_NAME -> habitRepository.getContactOrderedByHabitName()
             }
         }
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(), emptyList())
     private val _state = MutableStateFlow(HabitState())
-
+     init {
+         viewModelScope.launch {
+             loadSavedHabits()
+         }
+     }
     val state = combine(_state, _shortType, _habits) { state, sortType, habits ->
         state.copy(
             sortType = sortType,
@@ -63,7 +72,7 @@ class HabitViewModel(
                     backgroundColor = backgroundColor
                 )
                 viewModelScope.launch {
-                    dao.upsertHabit(habit)
+                    habitRepository.upsertHabit(habit)
                 }
                 _state.update {
                     it.copy(
@@ -114,11 +123,15 @@ class HabitViewModel(
 
             is HabitEvent.UpdateHabit -> {
                 viewModelScope.launch {
-                    dao.upsertHabit(event.habit)
+                    habitRepository.upsertHabit(event.habit)
                 }
             }
         }
     }
+
+     private suspend fun loadSavedHabits() {
+         _savedHabitList.value = habitRepository.getAllNonSystemDefinedHabits()
+     }
 
     fun habitUIEvent(event: HabitUIEvent) {
         when (event) {
@@ -157,7 +170,7 @@ class HabitViewModel(
 
     fun updateHabit(habit: HabitDbModel) {
         viewModelScope.launch {
-            dao.upsertHabit(habit)
+            habitRepository.upsertHabit(habit)
         }
     }
 
@@ -166,17 +179,21 @@ class HabitViewModel(
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 val updatedHabit = habit.copy(systemDefined = !habit.systemDefined)
-                dao.upsertHabit(updatedHabit)
+                habitRepository.upsertHabit(updatedHabit)
             }
         }
     }
 
-    fun getCurrentHabitList(habit: HabitDbModel){
-        viewModelScope.launch {
-            val currentHabitList = habitRepository.getHabitById(habit.id)
+     suspend fun getCurrentHabitList() {
+         viewModelScope.launch {
+             val currentHabit = habitRepository.getAllNonSystemDefinedHabits()
+             saveHabitList(currentHabit)
+         }
+     }
 
-        }
-    }
+     private fun saveHabitList(habitList: List<HabitDbModel> ) {
+         _savedHabitList.value = habitList // You can update the list according to your logic
+     }
 
 
 

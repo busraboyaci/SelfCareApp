@@ -41,6 +41,7 @@ import com.busra.selfcareapp.HabitEvent
 import com.busra.selfcareapp.HabitViewModel
 import com.busra.selfcareapp.R
 import com.busra.selfcareapp.components.AddHabitScreenTopRow
+import com.busra.selfcareapp.components.HabitDesign
 import com.busra.selfcareapp.components.TextHeader
 import com.busra.selfcareapp.navigate.Screen
 import com.busra.selfcareapp.navigate.SelfCareAppRouter
@@ -51,7 +52,7 @@ import com.busra.selfcareapp.navigate.SystemBackButtonHandler
 fun AddHabitScreen(
     viewModel: HabitViewModel,
     onEvent: (HabitEvent) -> Unit,
-    ) {
+) {
 //    val habitRepository = HabitRepository()
 //    val getAllData = habitRepository.getAllData()
     val state = viewModel.state
@@ -82,74 +83,62 @@ fun AddHabitScreen(
 
                 ) {
                 items(state.value.habits) { habit ->
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .wrapContentHeight()
-                            .padding(vertical = 10.dp)
-                            .clickable(onClick = {
-                                onEvent(HabitEvent.SelectHabit(habit)) // Seçili öğeyi güncelleme olayını tetikle
-                                SelfCareAppRouter.navigateTo(Screen.EditHabitScreen)
-                            }),
-                        horizontalArrangement = Arrangement.Center,
-                    ) {
-                        Column(
-                            modifier = Modifier
-                                .weight(0.1f)
-                                .clip(shape = RoundedCornerShape(15.dp))
-                                .background(colorResource(id = habit.backgroundColor))
-                        ) {
-                            Spacer(modifier = Modifier.height(5.dp))
-                            Row(
-                                horizontalArrangement = Arrangement.SpaceBetween, // Aligns items horizontally with space between
-                                verticalAlignment = Alignment.CenterVertically                                 ){
-                                Spacer(modifier = Modifier.width(5.dp))
-                                Image(
-                                    painter = painterResource(
-                                        id = LocalContext.current.resources.getIdentifier(
-                                            habit.iconResName,
-                                            "drawable",
-                                            LocalContext.current.packageName
-                                        )
-                                    ),
-                                    contentDescription = null, // Iconların genellikle content description'ı olmaz
-                                    modifier = Modifier
-                                        .size(48.dp)
-                                        .padding(end = 5.dp)
-                                )
-                                Text(
-                                    text = "${habit.habitName}",
-                                    fontSize = 25.sp,
-                                    textAlign = TextAlign.Start,
-                                    modifier = Modifier
-                                        .weight(1f) // Yatayda tam genişlik
-                                        .padding(start = 16.dp), // Sol kenardan boşluk
-                                )
-                                Text(
-                                    text = "${habit.systemDefined}",
-                                    fontSize = 25.sp,
-                                )
-                            }
-                            Spacer(modifier = Modifier.height(5.dp))
-                        }
-
-                        IconButton(onClick = {
-                            print("habit habitName: "+ habit.habitName)
-                            onEvent(HabitEvent.SelectHabit(habit)) // Seçili öğeyi güncelleme olayını tetikle
-                            SelfCareAppRouter.navigateTo(Screen.EditHabitScreen)
-                        }) {
-                            Icon(
-                                imageVector = Icons.Default.AddCircle,
-                                contentDescription = "Add Habit"
-                            )
-                        }
-
-                    }
+//                    Row(
+//                        modifier = Modifier
+//                            .fillMaxWidth()
+//                            .wrapContentHeight()
+//                            .padding(vertical = 10.dp)
+//                            .clickable(onClick = {
+//                                onEvent(HabitEvent.SelectHabit(habit)) // Seçili öğeyi güncelleme olayını tetikle
+//                                SelfCareAppRouter.navigateTo(Screen.EditHabitScreen)
+//                            }),
+//                        horizontalArrangement = Arrangement.Center,
+//                    ) {
+//                        Column(
+//                            modifier = Modifier
+//                                .weight(0.1f)
+//                                .clip(shape = RoundedCornerShape(15.dp))
+//                                .background(colorResource(id = habit.backgroundColor))
+//                        ) {
+//                            Spacer(modifier = Modifier.height(5.dp))
+//                            Row(
+//                                horizontalArrangement = Arrangement.SpaceBetween, // Aligns items horizontally with space between
+//                                verticalAlignment = Alignment.CenterVertically
+//                            ){
+//                                Spacer(modifier = Modifier.width(5.dp))
+//                                Image(
+//                                    painter = painterResource(
+//                                        id = LocalContext.current.resources.getIdentifier(
+//                                            habit.iconResName,
+//                                            "drawable",
+//                                            LocalContext.current.packageName
+//                                        )
+//                                    ),
+//                                    contentDescription = null, // Iconların genellikle content description'ı olmaz
+//                                    modifier = Modifier
+//                                        .size(48.dp)
+//                                        .padding(end = 5.dp)
+//                                )
+//                                Text(
+//                                    text = "${habit.habitName}",
+//                                    fontSize = 25.sp,
+//                                    textAlign = TextAlign.Start,
+//                                    modifier = Modifier
+//                                        .weight(1f) // Yatayda tam genişlik
+//                                        .padding(start = 16.dp), // Sol kenardan boşluk
+//                                )
+//                                Text(
+//                                    text = "${habit.systemDefined}",
+//                                    fontSize = 25.sp,
+//                                )
+//                            }
+//                            Spacer(modifier = Modifier.height(5.dp))
+//                        }
+//
+                    HabitDesign(habit, onEvent, Icons.Default.AddCircle)
                 }
             }
-
         }
-
 
     }
 

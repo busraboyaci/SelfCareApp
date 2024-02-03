@@ -17,15 +17,19 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.LocalTextStyle
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Switch
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.material.TextFieldDefaults
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AddCircle
 import androidx.compose.material.icons.materialIcon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -34,6 +38,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
@@ -45,8 +50,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.busra.selfcareapp.HabitEvent
 import com.busra.selfcareapp.R
 import com.busra.selfcareapp.data.roomdb.HabitDbModel
+import com.busra.selfcareapp.navigate.Screen
+import com.busra.selfcareapp.navigate.SelfCareAppRouter
 import com.busra.selfcareapp.ui.GrayColor
 import com.busra.selfcareapp.ui.HalfGray
 import com.google.android.material.color.ColorResourcesOverride
@@ -235,6 +243,114 @@ fun EditHabitTextFieldComposable(
         ),
     )
 
+}
+
+@Composable
+fun HabitDesign(habit: HabitDbModel,
+                onEvent: (HabitEvent) -> Unit,
+                imageVector: ImageVector
+){
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .wrapContentHeight()
+            .padding(vertical = 10.dp)
+            .clickable(onClick = {
+                onEvent(HabitEvent.SelectHabit(habit)) // Seçili öğeyi güncelleme olayını tetikle
+                SelfCareAppRouter.navigateTo(Screen.EditHabitScreen)
+            }),
+        horizontalArrangement = Arrangement.Center,
+    ) {
+        Column(
+            modifier = Modifier
+                .weight(0.1f)
+                .clip(shape = RoundedCornerShape(15.dp))
+                .background(colorResource(id = habit.backgroundColor))
+        ) {
+            Spacer(modifier = Modifier.height(5.dp))
+            Row(
+                horizontalArrangement = Arrangement.SpaceBetween, // Aligns items horizontally with space between
+                verticalAlignment = Alignment.CenterVertically
+            ){
+                Spacer(modifier = Modifier.width(5.dp))
+                Image(
+                    painter = painterResource(
+                        id = LocalContext.current.resources.getIdentifier(
+                            habit.iconResName,
+                            "drawable",
+                            LocalContext.current.packageName
+                        )
+                    ),
+                    contentDescription = null, // Iconların genellikle content description'ı olmaz
+                    modifier = Modifier
+                        .size(48.dp)
+                        .padding(end = 5.dp)
+                )
+                Text(
+                    text = "${habit.habitName}",
+                    fontSize = 25.sp,
+                    textAlign = TextAlign.Start,
+                    modifier = Modifier
+                        .weight(1f) // Yatayda tam genişlik
+                        .padding(start = 16.dp), // Sol kenardan boşluk
+                )
+            }
+            Spacer(modifier = Modifier.height(5.dp))
+        }
+        IconButton(onClick = {
+            print("habit habitName: " + habit.habitName)
+            onEvent(HabitEvent.SelectHabit(habit)) // Seçili öğeyi güncelleme olayını tetikle
+            SelfCareAppRouter.navigateTo(Screen.EditHabitScreen)
+        }) {
+            Icon(
+                imageVector = imageVector,
+                contentDescription = "habit icon"
+            )
+        }
+//    Row(
+//        modifier = Modifier
+//            .fillMaxWidth()
+//            .wrapContentHeight()
+//            .padding(vertical = 10.dp),
+//        horizontalArrangement = Arrangement.Center,
+//    ){
+//        Column(
+//            modifier = Modifier
+//                .weight(0.1f)
+//                .clip(shape = RoundedCornerShape(15.dp))
+//                .background(colorResource(id = habit.backgroundColor))
+//        ) {
+//            Spacer(modifier = Modifier.height(5.dp))
+//            Row(
+//                horizontalArrangement = Arrangement.SpaceBetween, // Aligns items horizontally with space between
+//                verticalAlignment = Alignment.CenterVertically
+//            ){
+//                Spacer(modifier = Modifier.width(5.dp))
+//                Image(
+//                    painter = painterResource(
+//                        id = LocalContext.current.resources.getIdentifier(
+//                            habit.iconResName,
+//                            "drawable",
+//                            LocalContext.current.packageName
+//                        )
+//                    ),
+//                    contentDescription = null, // Iconların genellikle content description'ı olmaz
+//                    modifier = Modifier
+//                        .size(48.dp)
+//                        .padding(end = 5.dp)
+//                )
+//                Text(
+//                    text = "${habit.habitName}",
+//                    fontSize = 25.sp,
+//                    textAlign = TextAlign.Start,
+//                    modifier = Modifier
+//                        .weight(1f) // Yatayda tam genişlik
+//                        .padding(start = 16.dp), // Sol kenardan boşluk
+//                )
+//            }
+//            Spacer(modifier = Modifier.height(5.dp))
+//        }
+    }
 }
 
 @Composable
