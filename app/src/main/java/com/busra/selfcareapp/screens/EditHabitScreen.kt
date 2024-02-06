@@ -80,6 +80,8 @@ fun EditHabitScreen(
                     // Renk değiştiğinde arka plan rengini güncelleyin
 //                    editHabitScreenViewModel.habitUIEvent(HabitUIEvent.SetHabitBackground(backgroundColorState.value))
                     editHabitScreenViewModel.setSystemDefinedToFalse(currentSelectedHabit)
+                    SelfCareAppRouter.navigateTo(Screen.HomeScreen)
+
                 },
                 selectedHabit = currentSelectedHabit.backgroundColor
             )

@@ -248,6 +248,7 @@ fun EditHabitTextFieldComposable(
 @Composable
 fun HabitDesign(habit: HabitDbModel,
                 onEvent: (HabitEvent) -> Unit,
+                navigateTo: (() -> Unit)? = null, // Nullable navigation parameter
                 imageVector: ImageVector
 ){
     Row(
@@ -257,7 +258,8 @@ fun HabitDesign(habit: HabitDbModel,
             .padding(vertical = 10.dp)
             .clickable(onClick = {
                 onEvent(HabitEvent.SelectHabit(habit)) // Seçili öğeyi güncelleme olayını tetikle
-                SelfCareAppRouter.navigateTo(Screen.EditHabitScreen)
+                navigateTo?.invoke() // Safely invoke the navigation function
+//                SelfCareAppRouter.navigateTo(Screen.EditHabitScreen)
             }),
         horizontalArrangement = Arrangement.Center,
     ) {
@@ -300,7 +302,7 @@ fun HabitDesign(habit: HabitDbModel,
         IconButton(onClick = {
             print("habit habitName: " + habit.habitName)
             onEvent(HabitEvent.SelectHabit(habit)) // Seçili öğeyi güncelleme olayını tetikle
-            SelfCareAppRouter.navigateTo(Screen.EditHabitScreen)
+            navigateTo?.invoke() // Safely invoke the navigation function
         }) {
             Icon(
                 imageVector = imageVector,

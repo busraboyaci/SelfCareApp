@@ -127,7 +127,10 @@ fun HomeScreen(homeViewModel: HomeViewModel = viewModel(),
                 verticalArrangement = Arrangement.spacedBy(16.dp),
                 ) {
                 items(savedHabitList) { habit ->
-                    HabitDesign(habit, onEvent, Icons.Default.CheckCircleOutline)
+                    print("habit.systemDefined: "+ habit.systemDefined)
+                    HabitDesign(habit, onEvent = { },
+                        navigateTo = {  },
+                        Icons.Default.CheckCircleOutline)
                 }
             }
         }

@@ -135,7 +135,10 @@ fun AddHabitScreen(
 //                            Spacer(modifier = Modifier.height(5.dp))
 //                        }
 //
-                    HabitDesign(habit, onEvent, Icons.Default.AddCircle)
+                    HabitDesign(habit,
+                        onEvent = { onEvent(HabitEvent.SelectHabit(habit)) },
+                        navigateTo = { SelfCareAppRouter.navigateTo(Screen.EditHabitScreen) },
+                        Icons.Default.AddCircle)
                 }
             }
         }
