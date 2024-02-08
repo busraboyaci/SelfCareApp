@@ -128,7 +128,9 @@ fun HomeScreen(homeViewModel: HomeViewModel = viewModel(),
                 ) {
                 items(savedHabitList) { habit ->
                     print("habit.systemDefined: "+ habit.systemDefined)
-                    HabitDesign(habit, onEvent = { },
+                    HabitDesign(habit, onEvent = {
+                        onEvent(HabitEvent.markHabitCompleted(habit.id))
+                    },
                         navigateTo = {  },
                         Icons.Default.CheckCircleOutline)
                 }

@@ -1,12 +1,15 @@
 package com.busra.selfcareapp
 
+import android.os.Build
 import android.util.Log
+import androidx.annotation.RequiresApi
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.busra.selfcareapp.data.repository.HabitRepository
+import com.busra.selfcareapp.data.roomdb.HabitCompletion
 import com.busra.selfcareapp.data.uievent.HabitUIEvent
 import com.busra.selfcareapp.data.uistate.HabitUIState
 import com.busra.selfcareapp.data.roomdb.HabitDao
@@ -126,6 +129,11 @@ class HabitViewModel(
                     habitRepository.upsertHabit(event.habit)
                 }
             }
+            is HabitEvent.markHabitCompleted ->{
+                viewModelScope.launch {
+                    habitRepository.markHabitCompleted(event.markHabitCompleted)
+                }
+            }
         }
     }
 
@@ -187,6 +195,7 @@ class HabitViewModel(
      suspend fun getCurrentHabitList() {
          viewModelScope.launch {
              val currentHabit = habitRepository.getAllNonSystemDefinedHabits()
+             print("currentHabit - viewmodelScope: "+ habitRepository.getAllNonSystemDefinedHabits())
              saveHabitList(currentHabit)
          }
      }

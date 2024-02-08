@@ -249,7 +249,7 @@ fun EditHabitTextFieldComposable(
 fun HabitDesign(habit: HabitDbModel,
                 onEvent: (HabitEvent) -> Unit,
                 navigateTo: (() -> Unit)? = null, // Nullable navigation parameter
-                imageVector: ImageVector
+                imageVector: ImageVector,
 ){
     Row(
         modifier = Modifier
