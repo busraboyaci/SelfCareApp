@@ -10,7 +10,7 @@ open class HabitEvent {
     data class DeleteHabit(val habit: HabitDbModel): HabitEvent()
     data class SelectHabit(val selectHabit: HabitDbModel): HabitEvent()
     data class UpdateHabit(val habit: HabitDbModel): HabitEvent()
-    data class markHabitCompleted(val markHabitCompleted: Int): HabitEvent()
+    data class MarkHabitCompleted(val markHabitCompleted: Int): HabitEvent()
 
 //    data class SortHabits(val sortType: SortType): HabitEvent()
 

@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.paddingFromBaseline
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
@@ -122,14 +123,16 @@ fun HomeScreen(homeViewModel: HomeViewModel = viewModel(),
             CalendarApp()
 //            ObserveScreenChanges()
             LazyColumn(
-                contentPadding = PaddingValues(8.dp),
-                modifier = Modifier.fillMaxSize(),
-                verticalArrangement = Arrangement.spacedBy(16.dp),
-                ) {
+                contentPadding = PaddingValues(3.dp),
+                modifier = Modifier.fillMaxWidth()
+                    .padding(bottom = 56.dp),
+                verticalArrangement = Arrangement.spacedBy(8.dp),
+
+            ) {
                 items(savedHabitList) { habit ->
                     print("habit.systemDefined: "+ habit.systemDefined)
                     HabitDesign(habit, onEvent = {
-                        onEvent(HabitEvent.markHabitCompleted(habit.id))
+                        onEvent(HabitEvent.MarkHabitCompleted(habit.id))
                     },
                         navigateTo = {  },
                         Icons.Default.CheckCircleOutline)

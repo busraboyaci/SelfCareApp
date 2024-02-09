@@ -61,7 +61,11 @@ class HabitRepository(val habitDao: HabitDao) {
 
     // Function to mark a habit as completed for the current date
     suspend fun markHabitCompleted(habitId: Int) {
-        val completion = HabitCompletion(habitId = habitId, completionDate = LocalDate.now())
+        val completion = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            HabitCompletion(habitId = habitId, completionDate = LocalDate.now())
+        } else {
+            TODO("VERSION.SDK_INT < O")
+        }
         habitDao.insertCompletion(completion)
     }
 

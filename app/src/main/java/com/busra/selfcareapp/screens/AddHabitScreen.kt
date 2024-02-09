@@ -77,9 +77,9 @@ fun AddHabitScreen(
             TextHeader("Select A Habit")
 
             LazyColumn(
-                contentPadding = PaddingValues(8.dp),
+                contentPadding = PaddingValues(3.dp),
                 modifier = Modifier.fillMaxSize(),
-                verticalArrangement = Arrangement.spacedBy(16.dp),
+                verticalArrangement = Arrangement.spacedBy(8.dp),
 
                 ) {
                 items(state.value.habits) { habit ->

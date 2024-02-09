@@ -129,7 +129,7 @@ class HabitViewModel(
                     habitRepository.upsertHabit(event.habit)
                 }
             }
-            is HabitEvent.markHabitCompleted ->{
+            is HabitEvent.MarkHabitCompleted ->{
                 viewModelScope.launch {
                     habitRepository.markHabitCompleted(event.markHabitCompleted)
                 }
