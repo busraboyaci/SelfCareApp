@@ -11,9 +11,11 @@ import com.busra.selfcareapp.navigate.Screen
 import com.busra.selfcareapp.navigate.SelfCareAppRouter
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.launch
+import java.time.LocalDate
 
 class HomeViewModel(): ViewModel() {
     private val TAG = HomeViewModel::class.simpleName
+
     fun logout(){
         val firebaseAuth = FirebaseAuth.getInstance()
         firebaseAuth.signOut()

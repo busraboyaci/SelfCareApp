@@ -3,28 +3,17 @@ package com.busra.selfcareapp.screens
 import android.annotation.SuppressLint
 import android.os.Build
 import androidx.annotation.RequiresApi
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.paddingFromBaseline
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.FloatingActionButton
@@ -38,19 +27,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
@@ -63,15 +47,17 @@ import com.busra.selfcareapp.bottombar.BottomBarScreen
 import com.busra.selfcareapp.components.CalendarApp
 import com.busra.selfcareapp.components.HabitDesign
 import com.busra.selfcareapp.components.UserInformationTopBar
+import com.busra.selfcareapp.data.CalendarUiModel
 import com.busra.selfcareapp.data.datastore.UserSettingsManager
 import com.busra.selfcareapp.data.viewModel.HomeViewModel
-import com.busra.selfcareapp.navigate.ObserveScreenChanges
 import com.busra.selfcareapp.navigate.Screen
 import com.busra.selfcareapp.navigate.SelfCareAppRouter
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.launch
+import java.time.LocalDate
 
 
+@RequiresApi(Build.VERSION_CODES.O)
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun HomeScreen(homeViewModel: HomeViewModel = viewModel(),
@@ -83,6 +69,7 @@ fun HomeScreen(homeViewModel: HomeViewModel = viewModel(),
     val dataStore = UserSettingsManager(context)
     val userName = FirebaseAuth.getInstance().currentUser?.email?.substringBefore("@")
     val savedHabitList by habitViewModel.savedHabitList.observeAsState(initial = emptyList())
+
     LaunchedEffect(Unit) {
         habitViewModel.getCurrentHabitList()
     }
@@ -120,11 +107,15 @@ fun HomeScreen(homeViewModel: HomeViewModel = viewModel(),
                 },
                     onNotificationButtonClick = {})
             }
-            CalendarApp()
+            CalendarApp(onDateSelected = { date ->
+                habitViewModel.setTargetDate(date)
+                habitViewModel.onEvent(HabitEvent.ChangeCalenderDate)
+            })
 //            ObserveScreenChanges()
             LazyColumn(
                 contentPadding = PaddingValues(3.dp),
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier
+                    .fillMaxWidth()
                     .padding(bottom = 56.dp),
                 verticalArrangement = Arrangement.spacedBy(8.dp),
 
@@ -136,6 +127,7 @@ fun HomeScreen(homeViewModel: HomeViewModel = viewModel(),
                     },
                         navigateTo = {  },
                         Icons.Default.CheckCircleOutline)
+
                 }
             }
         }

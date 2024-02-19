@@ -7,6 +7,7 @@ import androidx.room.Query
 import androidx.room.Transaction
 import androidx.room.Upsert
 import kotlinx.coroutines.flow.Flow
+import java.time.LocalDate
 
 @Dao
 interface HabitDao {
@@ -38,5 +39,8 @@ interface HabitDao {
     @Query("SELECT * FROM habit_table")
     suspend fun getHabitsWithCompletions(): List<HabitWithCompletions>
 
+    // Query to get completion date for a habit by habitId
+    @Query("SELECT completion_date FROM habit_completion_table WHERE habit_id = :habitId")
+    fun getCompletionDateForHabit(habitId: Int): LocalDate?
 
 }

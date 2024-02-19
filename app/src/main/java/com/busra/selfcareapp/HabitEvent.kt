@@ -1,6 +1,7 @@
 package com.busra.selfcareapp
 
 import com.busra.selfcareapp.data.roomdb.HabitDbModel
+import java.time.LocalDate
 
 
 open class HabitEvent {
@@ -11,6 +12,7 @@ open class HabitEvent {
     data class SelectHabit(val selectHabit: HabitDbModel): HabitEvent()
     data class UpdateHabit(val habit: HabitDbModel): HabitEvent()
     data class MarkHabitCompleted(val markHabitCompleted: Int): HabitEvent()
+    object ChangeCalenderDate: HabitEvent()
 
 //    data class SortHabits(val sortType: SortType): HabitEvent()
 

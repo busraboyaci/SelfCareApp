@@ -1,7 +1,9 @@
 package com.busra.selfcareapp.data.repository
 
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
+import androidx.lifecycle.LiveData
 import com.busra.selfcareapp.data.roomdb.HabitCompletion
 import com.busra.selfcareapp.data.roomdb.HabitDao
 import com.busra.selfcareapp.data.roomdb.HabitDbModel
@@ -13,19 +15,19 @@ class HabitRepository(val habitDao: HabitDao) {
         habitDao.upsertHabit(habit)
     }
 
-    fun upsertHabit(habit: HabitDbModel){
+    fun upsertHabit(habit: HabitDbModel) {
         habitDao.upsertHabit(habit)
     }
 
-    suspend fun deleteHabit(habit: HabitDbModel){
+    suspend fun deleteHabit(habit: HabitDbModel) {
         habitDao.deleteHabit(habit)
     }
 
-    suspend fun getAllHabit(){
+    suspend fun getAllHabit() {
         habitDao.getAllHabits()
     }
 
-    suspend fun insertHabit(habit:HabitDbModel){
+    suspend fun insertHabit(habit: HabitDbModel) {
         habitDao.insertHabit(habit)
     }
 
@@ -33,7 +35,7 @@ class HabitRepository(val habitDao: HabitDao) {
         return habitDao.getContactOrderedByHabitName()
     }
 
-    suspend fun getHabitById(habitId: Int): HabitDbModel?{
+    suspend fun getHabitById(habitId: Int): HabitDbModel? {
         return habitDao.getHabitById(habitId)
     }
 
@@ -41,17 +43,25 @@ class HabitRepository(val habitDao: HabitDao) {
 //    suspend fun getAllNonSystemDefinedHabits(): List<HabitDbModel> {
 //        return habitDao.getAllHabits().filter { !it.systemDefined }
 //    }
-    suspend fun getAllNonSystemDefinedHabits(): List<HabitDbModel> {
+    suspend fun getAllNonSystemDefinedHabits(targetDate: LiveData<LocalDate>): List<HabitDbModel> {
         val currentDate = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             LocalDate.now()
         } else {
             TODO("VERSION.SDK_INT < O")
         }
         return habitDao.getHabitsWithCompletions().map { habitWithCompletions ->
+            Log.d("habitname", habitWithCompletions.habit.habitName)
+            Log.d("currentDate", currentDate.toString())
+            Log.d("targetDate", targetDate.value.toString())
             // Check if the habit is not systemDefined and has no completion for the current date
             if (!habitWithCompletions.habit.systemDefined &&
                 habitWithCompletions.completions.none { it.completionDate == currentDate }
             ) {
+                habitWithCompletions.habit // Include the habit in the result list
+            } else if (!habitWithCompletions.habit.systemDefined &&
+                habitWithCompletions.completions.none { it.completionDate == targetDate.value }
+            ) {
+                print("habitname: ${habitWithCompletions.habit.habitName}, targetDate: $currentDate")
                 habitWithCompletions.habit // Include the habit in the result list
             } else {
                 null // Exclude the habit from the list
@@ -67,6 +77,10 @@ class HabitRepository(val habitDao: HabitDao) {
             TODO("VERSION.SDK_INT < O")
         }
         habitDao.insertCompletion(completion)
+    }
+
+    suspend fun changeCalenderDate(habitId: Int){
+        habitDao.getCompletionDateForHabit(habitId)
     }
 
 

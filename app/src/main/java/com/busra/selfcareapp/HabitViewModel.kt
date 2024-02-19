@@ -5,6 +5,8 @@ import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -15,7 +17,9 @@ import com.busra.selfcareapp.data.uistate.HabitUIState
 import com.busra.selfcareapp.data.roomdb.HabitDao
 import com.busra.selfcareapp.data.roomdb.HabitDbModel
 import com.busra.selfcareapp.data.roomdb.SortType
+import com.busra.selfcareapp.data.viewModel.HomeViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -26,6 +30,8 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.time.LocalDate
+import java.util.Date
 
 class HabitViewModel(
 //    private val dao: HabitDao,
@@ -35,6 +41,9 @@ class HabitViewModel(
      private val _shortType = MutableStateFlow(SortType.HABIT_NAME)
      private val _savedHabitList = MutableLiveData<List<HabitDbModel>>()
      val savedHabitList: MutableLiveData<List<HabitDbModel>> = _savedHabitList
+     private val _targetDate = MutableLiveData<LocalDate>()
+     val targetDate: LiveData<LocalDate> = _targetDate
+    private val homeViewModel = HomeViewModel()
      private val _habits = _shortType
 
          .flatMapLatest { shortType ->
@@ -44,6 +53,7 @@ class HabitViewModel(
         }
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(), emptyList())
     private val _state = MutableStateFlow(HabitState())
+
      init {
          viewModelScope.launch {
              loadSavedHabits()
@@ -55,6 +65,7 @@ class HabitViewModel(
             habits = habits
         )
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), HabitState())
+
 
     //    some user interaction like = user press a button ext.
     fun onEvent(event: HabitEvent) {
@@ -131,14 +142,30 @@ class HabitViewModel(
             }
             is HabitEvent.MarkHabitCompleted ->{
                 viewModelScope.launch {
+                    Log.d("habitViewmodel", targetDate.toString())
                     habitRepository.markHabitCompleted(event.markHabitCompleted)
+                    _savedHabitList.value = habitRepository.getAllNonSystemDefinedHabits(targetDate)
+                }
+            }
+
+            is HabitEvent.ChangeCalenderDate ->{
+                viewModelScope.launch {
+                    Log.d("ChangeCalenderDate", targetDate.value.toString())
+                    habitRepository.getAllNonSystemDefinedHabits(targetDate)
+                    _savedHabitList.value = habitRepository.getAllNonSystemDefinedHabits(targetDate)
                 }
             }
         }
     }
 
      private suspend fun loadSavedHabits() {
-         _savedHabitList.value = habitRepository.getAllNonSystemDefinedHabits()
+         _savedHabitList.value = habitRepository.getAllNonSystemDefinedHabits(targetDate)
+     }
+
+     fun setTargetDate(date: LocalDate) {
+         _targetDate.value = date
+         // Perform any necessary logic or state updates based on the selected date
+         Log.d("setTargetDate", _targetDate.value.toString())
      }
 
     fun habitUIEvent(event: HabitUIEvent) {
@@ -194,8 +221,7 @@ class HabitViewModel(
 
      suspend fun getCurrentHabitList() {
          viewModelScope.launch {
-             val currentHabit = habitRepository.getAllNonSystemDefinedHabits()
-             print("currentHabit - viewmodelScope: "+ habitRepository.getAllNonSystemDefinedHabits())
+             val currentHabit = habitRepository.getAllNonSystemDefinedHabits(targetDate)
              saveHabitList(currentHabit)
          }
      }

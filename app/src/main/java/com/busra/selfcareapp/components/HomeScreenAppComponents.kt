@@ -1,6 +1,7 @@
 package com.busra.selfcareapp.components
 
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -11,14 +12,12 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
@@ -34,6 +33,8 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -43,7 +44,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
@@ -54,9 +54,11 @@ import com.busra.selfcareapp.HabitViewModel
 import com.busra.selfcareapp.R
 import com.busra.selfcareapp.data.CalendarDataSource
 import com.busra.selfcareapp.data.CalendarUiModel
+import com.busra.selfcareapp.data.repository.HabitRepository
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
+import kotlin.math.log
 
 @Composable
 fun UserInformationTopBar(
@@ -156,6 +158,7 @@ fun ImageButtonComponent(onButtonClicked: () -> Unit, drawable: Int) {
     }
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun CalenderHeader(
     data: CalendarUiModel,
@@ -180,9 +183,9 @@ fun CalenderHeader(
         )
         IconButton(
             onClick = {
-            // invoke previous callback when its button clicked
-            onPrevClickListener(data.startDate.date)
-        }) {
+                // invoke previous callback when its button clicked
+                onPrevClickListener(data.startDate.date)
+            }) {
             Icon(
                 imageVector = Icons.Filled.ChevronLeft,
                 contentDescription = ""
@@ -190,9 +193,9 @@ fun CalenderHeader(
         }
         IconButton(
             onClick = {
-            // invoke next callback when this button is clicked
-            onNextClickListener(data.endDate.date)
-        }) {
+                // invoke next callback when this button is clicked
+                onNextClickListener(data.endDate.date)
+            }) {
             Icon(
                 imageVector = Icons.Filled.ChevronRight, contentDescription = ""
             )
@@ -201,10 +204,19 @@ fun CalenderHeader(
 }
 
 @Composable
-fun CalendarApp(modifier: Modifier = Modifier) {
+fun CalendarApp(
+    modifier: Modifier = Modifier,
+    onDateSelected: (LocalDate) -> Unit,
+): LocalDate {
     val dataSource = CalendarDataSource()
     // we use `mutableStateOf` and `remember` inside composable function to schedules recomposition
-    var calendarUiModel by remember { mutableStateOf(dataSource.getData(lastSelectedDate = dataSource.today)) }
+    var calendarUiModel by remember {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            mutableStateOf(dataSource.getData(lastSelectedDate = dataSource.today))
+        } else {
+            TODO("VERSION.SDK_INT < O")
+        }
+    }
 
     Column(modifier = modifier.fillMaxWidth()) {
         CalenderHeader(
@@ -213,13 +225,22 @@ fun CalendarApp(modifier: Modifier = Modifier) {
                 // refresh the CalendarUiModel with new data
                 // by get data with new Start Date (which is the startDate-1 from the visibleDates)
                 val finalStartDate = startDate.minusDays(1)
-                calendarUiModel = dataSource.getData(startDate = finalStartDate, lastSelectedDate = calendarUiModel.selectedDate.date)
+                calendarUiModel = dataSource.getData(
+                    startDate = finalStartDate,
+                    lastSelectedDate = calendarUiModel.selectedDate.date
+                )
+                onDateSelected(calendarUiModel.selectedDate.date)
             },
             onNextClickListener = { endDate ->
                 // refresh the CalendarUiModel with new data
                 // by get data with new Start Date (which is the endDate+2 from the visibleDates)
                 val finalStartDate = endDate.plusDays(2)
-                calendarUiModel = dataSource.getData(startDate = finalStartDate, lastSelectedDate = calendarUiModel.selectedDate.date)
+                calendarUiModel = dataSource.getData(
+                    startDate = finalStartDate,
+                    lastSelectedDate = calendarUiModel.selectedDate.date
+                )
+                Log.d("calender UI selectedDate 1 ", calendarUiModel.selectedDate.date.toString())
+                onDateSelected(calendarUiModel.selectedDate.date)
             }
         )
         Content(calendarUiModel, onDateClickListener = { date ->
@@ -234,8 +255,11 @@ fun CalendarApp(modifier: Modifier = Modifier) {
                 }
             )
         })
-
+        Log.d("calender UI selectedDate 2", calendarUiModel.selectedDate.date.toString())
+        onDateSelected(calendarUiModel.selectedDate.date)
     }
+    Log.d("calender UI selectedDate 3", calendarUiModel.selectedDate.date.toString())
+    return calendarUiModel.selectedDate.date
 }
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -287,10 +311,11 @@ fun Content(
     calenderUiModel: CalendarUiModel,
     onDateClickListener: (CalendarUiModel.Date) -> Unit
 ) {
-    LazyRow{
+    LazyRow {
         // pass the visibleDates to the UI
         items(
-            items = calenderUiModel.visibleDates) { date ->
+            items = calenderUiModel.visibleDates
+        ) { date ->
             ContentItem(
                 date,
                 onDateClickListener
